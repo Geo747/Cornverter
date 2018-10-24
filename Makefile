@@ -8,7 +8,7 @@
 # Setup Info
 MCU = atmega328p
 AVRDUDE_PROGRAMMER = arduino
-AVRDUDE_PORT = COM6
+AVRDUDE_PORT = COM4
 AVRDUDE_BAUD_RATE = 57600
 
 # Target file name (without extension).
