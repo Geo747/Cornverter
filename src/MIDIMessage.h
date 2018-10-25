@@ -26,12 +26,6 @@ typedef struct {
     If the message is only 2 bytes long, this one is null.
     \n Value goes from 0 to 127.
     */
-  DataByte data2;
-
-  /*! This boolean indicates if the message is valid or not.
-    There is no channel consideration here,
-    validity means the message respects the MIDI norm.
-    */
-  byte valid;  
+  DataByte data2;  
 } MIDIMessage;
 #endif

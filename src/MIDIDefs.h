@@ -2,9 +2,6 @@
 #ifndef MIDIDEFS_H
 #define MIDIDEFS_H
 
-#include <inttypes.h>
-typedef uint8_t byte;
-
 typedef byte StatusByte;
 typedef byte DataByte;
 typedef byte Channel;
@@ -12,6 +9,7 @@ typedef byte Channel;
 typedef enum
 {
   //Only uncommented message types are implemented at the moment, and only in receive.
+  //Adding other methods requires some editing of the code in MIDI.c
   InvalidType           = 0x00,    ///< For notifying errors
   NoteOff               = 0x80,    ///< Note Off
   NoteOn                = 0x90,    ///< Note On

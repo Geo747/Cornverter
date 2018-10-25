@@ -3,6 +3,8 @@
 
 #ifndef SETTINGS_H
 #define SETTINGS_H
+  #include <inttypes.h>
+  typedef uint8_t byte;
 
   //This code makes vscode play ball with libc but doesnt affect production
   //Set the define to the correct processor as in avr/io.h

@@ -19,7 +19,7 @@ void pitchBendHandler(MIDIMessage message) {
   
 }
 
-void setupHandlers(void) {
+void setupMIDIHandlers(void) {
   setMIDICallback(noteOffHandler, NoteOff);
   setMIDICallback(noteOnHandler, NoteOn);
   setMIDICallback(controlChangeHandler, ControlChange);
@@ -28,7 +28,7 @@ void setupHandlers(void) {
 
 void setup(void) {
   MIDISetup();
-  setupHandlers();
+  setupMIDIHandlers();
   DDRB = 0xFF;
 }
 
