@@ -23,4 +23,6 @@
   //Serial rx buffer size in bytes (works best as powers of 2) cant be more than 8 bit
   #define RX_BUFFER_SIZE 32
 
+  //Number of channels PolyToMono assigns memory for
+  #define POLY_TO_MONO_CHANNELS 2
 #endif

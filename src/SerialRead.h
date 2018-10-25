@@ -1,9 +1,8 @@
 //Copyright 2018 George Rennie
-#ifndef SERIAL_READ_H
-#define SERIAL_READ_H
+#ifndef SERIALREAD_H
+#define SERIALREAD_H
 
 #include "Settings.h"
-#include "MIDIDefs.h"
 #include <avr/io.h>
 #include <avr/interrupt.h>
 
