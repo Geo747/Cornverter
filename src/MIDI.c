@@ -1,6 +1,7 @@
 //Copyright 2018 George Rennie
 #include "MIDI.h"
 
+//Struct containing function pointers to callback functions
 struct callbackStruct{
   void (*mNoteOff)(MIDIMessage message);
   void (*mNoteOn)(MIDIMessage message);
@@ -8,30 +9,13 @@ struct callbackStruct{
   void (*mPitchBend)(MIDIMessage message);
 };
 
+//Initialise callbacks to disconnected
 struct callbackStruct callbacks = {
   .mNoteOff = 0,
   .mNoteOn = 0,
   .mControlChange = 0,
   .mPitchBend = 0,
 };
-
-void setMIDICallback(void (*fptr)(MIDIMessage message), MIDIType type) {
-  switch (type) {
-    case NoteOff: callbacks.mNoteOff = fptr; break;
-    case NoteOn: callbacks.mNoteOn = fptr; break;
-    case ControlChange: callbacks.mControlChange = fptr; break;
-    case PitchBend: callbacks.mPitchBend = fptr; break;
-  }
-}
-
-static void launchCallback(void) {
-  switch (d.mMessage.type) {
-    case NoteOff: if(callbacks.mNoteOff != 0) { callbacks.mNoteOff(d.mMessage); } break;
-    case NoteOn: if(callbacks.mNoteOn != 0) { callbacks.mNoteOn(d.mMessage); } break;
-    case ControlChange: if(callbacks.mControlChange != 0) { callbacks.mControlChange(d.mMessage); } break;
-    case PitchBend: if(callbacks.mPitchBend != 0) { callbacks.mPitchBend(d.mMessage); } break;
-  }
-}
 
 //Data for the library, not declared in .h so just visible in this file
 struct dataStruct{
@@ -216,6 +200,17 @@ static byte parse(void) {
   return 0;
 }
 
+//Launches callbacks from MIDIread() according to message type and if a callback is implemented
+static void launchCallback(void) {
+  switch (d.mMessage.type) {
+    case NoteOff: if(callbacks.mNoteOff != 0) { callbacks.mNoteOff(d.mMessage); } break;
+    case NoteOn: if(callbacks.mNoteOn != 0) { callbacks.mNoteOn(d.mMessage); } break;
+    case ControlChange: if(callbacks.mControlChange != 0) { callbacks.mControlChange(d.mMessage); } break;
+    case PitchBend: if(callbacks.mPitchBend != 0) { callbacks.mPitchBend(d.mMessage); } break;
+    default: break;
+  }
+}
+
 void MIDISetup() {
   serialSetup();
 }
@@ -230,4 +225,15 @@ void MIDIRead() { //Constant polling for new midi bytes
   launchCallback();
 
   return;
+}
+
+//Allows user to set callback by giving target function and midi message type
+void setMIDICallback(void (*fptr)(MIDIMessage message), MIDIType type) {
+  switch (type) {
+    case NoteOff: callbacks.mNoteOff = fptr; break;
+    case NoteOn: callbacks.mNoteOn = fptr; break;
+    case ControlChange: callbacks.mControlChange = fptr; break;
+    case PitchBend: callbacks.mPitchBend = fptr; break;
+    default: break;
+  }
 }
