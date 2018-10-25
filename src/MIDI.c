@@ -1,6 +1,8 @@
 //Copyright 2018 George Rennie
 #include "Settings.h"
 #include "MIDI.h"
+#include "MIDI_defs.h"
+#include "MIDI_message.h"
 #include <avr/io.h>
 
 static char read_byte(void) {
