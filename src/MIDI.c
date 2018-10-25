@@ -25,9 +25,22 @@ struct dataStruct data = {
   .mPendingMessageIndex = 0,
 };
 
+
+//TODO: Implement external serial read lib with message buffer to replace readByte and serialAvailable functions using Interrupts
 static byte readByte(void) {
   while (!(UCSR0A & (1 << RXC0))) {} //Wait until receive is ready
   return UDR0; //Return receive buffer
+}
+
+static byte serialAvailable(void) {
+  return (UCSR0A & (1 << RXC0));
+}
+
+static byte parser(void) {
+  if (!serialAvailable()) { return 0; }
+
+  const byte extracted = readByte();
+
 }
 
 void MIDISetup() {

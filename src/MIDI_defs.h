@@ -11,6 +11,7 @@ typedef byte Channel;
 
 typedef enum
 {
+  //Only uncommented message types are implemented at the moment, and only in receive.
   InvalidType           = 0x00,    ///< For notifying errors
   NoteOff               = 0x80,    ///< Note Off
   NoteOn                = 0x90,    ///< Note On
