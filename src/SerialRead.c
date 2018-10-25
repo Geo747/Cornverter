@@ -8,7 +8,7 @@ byte mRxBufferTail = 0;
 //Reads from ring buffer
 int serialReadByte(void) {
   if (mRxBufferHead == mRxBufferTail) {
-    return -1
+    return -1;
   } else {
     byte data = mRxBuffer[mRxBufferTail];
     mRxBufferTail = (byte)((mRxBufferTail + 1) % RX_BUFFER_SIZE);
