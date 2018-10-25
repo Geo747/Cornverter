@@ -10,11 +10,11 @@ If more than one note on message on the same note is sent before receiving a not
 //Data array to keep all the addresses and stuff with one dimension used to determine channel
 //Each index in the second dimension represents one midi note with the last index being a no note indicator
 //The third dimension contains preceding note to that 2nd dimension index, then following note and then that notes velocity
-byte data[POLY_TO_MONO_CHANNELS][129][3];
-byte saveNote[POLY_TO_MONO_CHANNELS];
+static byte data[MIDI_CHANNELS][129][3];
+static byte saveNote[MIDI_CHANNELS];
 
 void polyToMonoSetup(void) {
-  for (byte i = 0; i < POLY_TO_MONO_CHANNELS; i++) {
+  for (byte i = 0; i < MIDI_CHANNELS; i++) {
     for (byte j = 0; j < 129; j++) {
       for (byte k = 0; k < 3; k++) {
         data[i][j][k] = 128; //Init all places in the data array to 128 (i.e. the no note value)
@@ -25,7 +25,7 @@ void polyToMonoSetup(void) {
 }
 
 static inline byte channelInRange(byte channel) {
-  if (channel < POLY_TO_MONO_CHANNELS) { return 1; }
+  if (channel < MIDI_CHANNELS) { return 1; }
   return 0;
 }
 
@@ -51,7 +51,7 @@ void polyToMonoNoteOff(byte note, byte channel) {
   if (!channelInRange(channel)) { return; }
 
   data[channel][note][2] = 128; //Velocity off for note
-	if (note == saveNote[channel]) { //If it is last note on stack move pouint8_ter back one.
+	if (note == saveNote[channel]) { //If it is last note on stack move pointer back one.
 		saveNote[channel] = data[channel][note][0]; //As the velocity has been set to 128 (off) the values left in its references are irrelevant
 	}
 	else {

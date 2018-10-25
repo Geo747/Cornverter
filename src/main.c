@@ -2,20 +2,34 @@
 #include "Settings.h"
 #include <avr/io.h>
 #include "MIDI.h"
+#include "PolyToMono.h"
+
+byte channelIsUsed(byte channel) {
+  if (channel < MIDI_CHANNELS) { return 1; }
+  return 0;
+}
 
 void noteOffHandler(MIDIMessage message) {
-  PORTB = 0x00;
+  if (!channelIsUsed(message.channel)) { return; }
+
+  polyToMonoNoteOff(message.data1, message.channel);
+  if (polyToMonoCurrentVelocity(message.channel) == 128) { PORTB = 0x00; }
 }
 
 void noteOnHandler(MIDIMessage message) {
-  PORTB = 0xFF;
+  if (!channelIsUsed(message.channel)) { return; }
+
+  polyToMonoNoteOn(message.data1, message.data2, message.channel);
+  if (polyToMonoIsNoteOn(message.channel)) { PORTB = 0xFF; }
 }
 
 void controlChangeHandler(MIDIMessage message) {
+  if (!channelIsUsed(message.channel)) { return; }
   
 }
 
 void pitchBendHandler(MIDIMessage message) {
+  if (!channelIsUsed(message.channel)) { return; }
   
 }
 
@@ -28,6 +42,7 @@ void setupMIDIHandlers(void) {
 
 void setup(void) {
   MIDISetup();
+  polyToMonoSetup();
   setupMIDIHandlers();
   DDRB = 0xFF;
 }
