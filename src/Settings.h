@@ -17,7 +17,10 @@
 
   //Use MIDI running status (advised)
   #define USE_RUNNING_STATUS  1
-  //Treat note on messages with 0 velocity as note off messages
+  //Treat note on messages with 0 velocity as note off messages (advised)
   #define NULL_VELOCITY_AS_NOTE_OFF 1
+
+  //Serial rx buffer size in bytes (works best as powers of 2) cant be more than 8 bit
+  #define RX_BUFFER_SIZE 32
 
 #endif

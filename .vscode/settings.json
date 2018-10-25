@@ -5,6 +5,6 @@
     "setbaud.h": "c",
     "settings.h": "c",
     "midi.h": "c",
-    "midi_defs.h": "c"
+    "mididefs.h": "c",
   }
 }

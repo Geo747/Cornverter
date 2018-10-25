@@ -1,8 +1,8 @@
 //Copyright 2018 George Rennie
-#ifndef MIDI_MESSAGE_H
-#define MIDI_MESSAGE_H
+#ifndef MIDIMESSAGE_H
+#define MIDIMESSAGE_H
 
-#include "MIDI_Defs.h"
+#include "MIDIDefs.h"
 
 typedef struct {
   /*! The MI

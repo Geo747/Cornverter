@@ -3,10 +3,10 @@
 #define MIDI_H
 
 #include "Settings.h"
-#include "MIDI_Defs.h"
-#include "MIDI_Message.h"
-#include <avr/io.h>
+#include "MIDIDefs.h"
+#include "MIDIMessage.h"
+#include "SerialRead.h"
 
-inline void MIDISetup(void);
-inline void MIDIRead(void);
+void MIDISetup(void);
+void MIDIRead(void);
 #endif

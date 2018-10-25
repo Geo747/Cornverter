@@ -1,6 +1,6 @@
 //Copyright 2018 George Rennie
-#ifndef MIDI_DEFS_H
-#define MIDI_DEFS_H
+#ifndef MIDIDEFS_H
+#define MIDIDEFS_H
 
 #include <inttypes.h>
 typedef uint8_t byte;
