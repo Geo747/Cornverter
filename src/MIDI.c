@@ -1,10 +1,11 @@
+//Copyright 2018 George Rennie
 #include "Settings.h"
 #include "MIDI.h"
 #include <avr/io.h>
 
 static char read_byte(void) {
-  while (!(UCSR0A & (1 << RXC0))) {}
-  return UDR0;
+  while (!(UCSR0A & (1 << RXC0))) {} //Wait until receive is ready
+  return UDR0; //Return receive buffer
 }
 
 void MIDI_setup() {
