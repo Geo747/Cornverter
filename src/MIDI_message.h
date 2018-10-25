@@ -2,12 +2,13 @@
 #ifndef MIDI_MESSAGE_H
 #define MIDI_MESSAGE_H
 
-#include "MIDI_defs.h"
+#include "MIDI_Defs.h"
 
 typedef struct {
   /*! The MI
   DI channel on which the message was recieved.
-    \n Value goes from 1 to 16.
+    \n Value goes from 0 to 15.
+    16 represenents an unknown channel
     */
   Channel channel;
 
@@ -31,6 +32,6 @@ typedef struct {
     There is no channel consideration here,
     validity means the message respects the MIDI norm.
     */
-  byte valid;
-} MIDI_message;
+  byte valid;  
+} MIDIMessage;
 #endif

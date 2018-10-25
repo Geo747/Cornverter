@@ -1,16 +1,36 @@
 //Copyright 2018 George Rennie
-#include "Settings.h"
 #include "MIDI.h"
-#include "MIDI_defs.h"
-#include "MIDI_message.h"
-#include <avr/io.h>
 
-static char read_byte(void) {
+//Data for the library, not declared in .h so just visible in this file
+struct dataStruct{
+  MIDIMessage mMessage;
+  StatusByte mRunningStatus;
+  byte mPendingMessage[3];
+  uint8_t mPendingMessageExpectedLength;
+  uint8_t mPendingMessageIndex;
+};
+
+//Instance and initialisation of this struct to provide data to the file
+//Not accessible outside this file
+struct dataStruct data = {
+  .mMessage.channel = 16,
+  .mMessage.type = InvalidType,
+  .mMessage.data1 = 0,
+  .mMessage.data2 = 0,
+  .mMessage.valid = 0,
+
+  .mRunningStatus = InvalidType,
+  .mPendingMessage = {0, 0, 0},
+  .mPendingMessageExpectedLength = 0,
+  .mPendingMessageIndex = 0,
+};
+
+static byte readByte(void) {
   while (!(UCSR0A & (1 << RXC0))) {} //Wait until receive is ready
   return UDR0; //Return receive buffer
 }
 
-void MIDI_setup() {
+void MIDISetup() {
   #include <util/setbaud.h>
 
   UBRR0H = UBRRH_VALUE; //Set serial prescalers from util/setbaud
@@ -28,6 +48,12 @@ void MIDI_setup() {
   UCSR0B |= (1 << RXEN0) | (1 << TXEN0); //enable serial rx and tx
 }
 
-char MIDI_read() { //Constant polling for new midi bytes
-  return read_byte();
+inline void MIDIRead() { //Constant polling for new midi bytes
+  if (!parse())
+      return;
+
+  // handleNullVelocityNoteOnAsNoteOff();
+
+  // launchCallback();
+  return;
 }
