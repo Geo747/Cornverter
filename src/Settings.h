@@ -15,8 +15,6 @@
   //MIDI Baudrate
   #define BAUD 38400
 
-  //Use MIDI running status (advised)
-  #define USE_RUNNING_STATUS  1
   //Treat note on messages with 0 velocity as note off messages (advised)
   #define NULL_VELOCITY_AS_NOTE_OFF 1
 

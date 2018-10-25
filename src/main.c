@@ -5,12 +5,14 @@
 
 void setup(void){
   MIDISetup();
+  DDRB = 0xFF;
 }
 
 int main(void)
 {
   setup();
   while (1) {
+    MIDIRead();
   }
   return 0;
 }

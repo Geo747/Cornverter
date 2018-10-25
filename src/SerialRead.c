@@ -19,6 +19,7 @@ int serialReadByte(void) {
 byte serialAvailable(void) {
   //returns 0 only when the buffer pointers are the same value
   //i.e. whenever there is data in the buffer the pointers are at dif places
+  //Therefore it returns the number of bytes in buffer
   return (byte)(RX_BUFFER_SIZE + mRxBufferHead - mRxBufferTail) % RX_BUFFER_SIZE;
 }
 
