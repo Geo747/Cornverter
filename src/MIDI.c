@@ -1,6 +1,38 @@
 //Copyright 2018 George Rennie
 #include "MIDI.h"
 
+struct callbackStruct{
+  void (*mNoteOff)(MIDIMessage message);
+  void (*mNoteOn)(MIDIMessage message);
+  void (*mControlChange)(MIDIMessage message);
+  void (*mPitchBend)(MIDIMessage message);
+};
+
+struct callbackStruct callbacks = {
+  .mNoteOff = 0,
+  .mNoteOn = 0,
+  .mControlChange = 0,
+  .mPitchBend = 0,
+};
+
+void setMIDICallback(void (*fptr)(MIDIMessage message), MIDIType type) {
+  switch (type) {
+    case NoteOff: callbacks.mNoteOff = fptr; break;
+    case NoteOn: callbacks.mNoteOn = fptr; break;
+    case ControlChange: callbacks.mControlChange = fptr; break;
+    case PitchBend: callbacks.mPitchBend = fptr; break;
+  }
+}
+
+static void launchCallback(void) {
+  switch (d.mMessage.type) {
+    case NoteOff: if(callbacks.mNoteOff != 0) { callbacks.mNoteOff(d.mMessage); } break;
+    case NoteOn: if(callbacks.mNoteOn != 0) { callbacks.mNoteOn(d.mMessage); } break;
+    case ControlChange: if(callbacks.mControlChange != 0) { callbacks.mControlChange(d.mMessage); } break;
+    case PitchBend: if(callbacks.mPitchBend != 0) { callbacks.mPitchBend(d.mMessage); } break;
+  }
+}
+
 //Data for the library, not declared in .h so just visible in this file
 struct dataStruct{
   MIDIMessage mMessage;
@@ -17,7 +49,6 @@ struct dataStruct d = {
   .mMessage.type = InvalidType,
   .mMessage.data1 = 0,
   .mMessage.data2 = 0,
-  .mMessage.valid = 0,
 
   .mRunningStatus = InvalidType,
   .mPendingMessage = {0, 0, 0},
@@ -25,23 +56,23 @@ struct dataStruct d = {
   .mPendingMessageIndex = 0,
 };
 
-//Returns true if miditype input can have a channel
+//Returns true if MIDIType input can have a channel
 //Needs modifying if capability for more channel type messages is added to library
-static byte isChannelMessage(MidiType input) {
+static byte isChannelMessage(MIDIType input) {
   return (input == NoteOff ||
           input == NoteOff ||
           input == NoteOff ||
           input == NoteOff);
 }
 
-static MidiType getTypeFromStatusByte(byte input) {
+static MIDIType getTypeFromStatusByte(byte input) {
   if ((input  < 0x80) ||
       (input == 0xA0) ||
       (input == 0xC0) ||
       (input == 0xD0) ||
       (input >= 0xF0))
   {
-      // input is either a data byte or undefined with current setup (see MidiType in MIDIDefs.h)
+      // input is either a data byte or undefined with current setup (see MIDIType in MIDIDefs.h)
       return InvalidType;
   }
 
@@ -51,7 +82,7 @@ static MidiType getTypeFromStatusByte(byte input) {
       return (input & 0xF0);
   }
 
-  //Should automatically be cast to MidiType cos typedef enum I yhink
+  //Should automatically be cast to MIDIType cos typedef enum I yhink
   return input;
 }
 
@@ -153,8 +184,6 @@ static byte parse(void) {
       d.mPendingMessageIndex = 0;
       d.mPendingMessageExpectedLength = 0;
 
-      d.mMessage.valid = 1;
-
       // Activate running status (if enabled for the received type)
       switch (d.mMessage.type)
       {
@@ -197,7 +226,8 @@ void MIDIRead() { //Constant polling for new midi bytes
   }
 
   handleNullVelocityNoteOnAsNoteOff();
-  
-  // launchCallback();
+
+  launchCallback();
+
   return;
 }

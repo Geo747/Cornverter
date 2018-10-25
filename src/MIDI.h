@@ -9,4 +9,6 @@
 
 void MIDISetup(void);
 void MIDIRead(void);
+
+void setMIDICallback(void (*fptr)(MIDIMessage message), MIDIType type);
 #endif

@@ -3,13 +3,35 @@
 #include <avr/io.h>
 #include "MIDI.h"
 
-void setup(void){
+void noteOffHandler(MIDIMessage message) {
+  PORTB = 0x00;
+}
+
+void noteOnHandler(MIDIMessage message) {
+  PORTB = 0xFF;
+}
+
+void controlChangeHandler(MIDIMessage message) {
+  
+}
+
+void pitchBendHandler(MIDIMessage message) {
+  
+}
+
+void setupHandles(void) {
+  setMIDICallback(noteOffHandler, NoteOff);
+  setMIDICallback(noteOnHandler, NoteOn);
+  setMIDICallback(controlChangeHandler, ControlChange);
+  setMIDICallback(pitchBendHandler, PitchBend);
+}
+
+void setup(void) {
   MIDISetup();
   DDRB = 0xFF;
 }
 
-int main(void)
-{
+int main(void) {
   setup();
   while (1) {
     MIDIRead();

@@ -13,9 +13,9 @@ typedef struct {
   Channel channel;
 
   /*! The type of the message
-    (see the MidiType enum for types reference)
+    (see the MIDIType enum for types reference)
     */
-  MidiType type;
+  MIDIType type;
 
   /*! The first data byte.
     \n Value goes from 0 to 127.

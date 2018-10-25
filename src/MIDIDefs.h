@@ -31,6 +31,6 @@ typedef enum
   //Stop                  = 0xFC,    ///< System Real Time - Stop
   //ActiveSensing         = 0xFE,    ///< System Real Time - Active Sensing
   //SystemReset           = 0xFF,    ///< System Real Time - System Reset
-} MidiType;
+} MIDIType;
 
 #endif
