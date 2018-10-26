@@ -1,17 +1,6 @@
 //Copyright 2018 George Rennie
 #include "MIDI.h"
 
-/*TODO: Add support for:
-Bn 7B 00 messages - All notes off (sent on stop while stopped in fl (i.e double press of stop) and general init)
-F8 - Realtime MIDI Clock
-FA - Start (sent on play in fl)
-FC - Stop (sent on pause in fl and stop whilst playing in fl)
-FB - Continue (sent on play when continuing from previous point in fl)
-Dont bother with MTC Quarter Frames
-
-Note - FL sends note off messages for any notes that dont have time to reach their note end cos playback is stopped
-*/
-
 //Struct containing function pointers to callback functions
 struct callbackStruct{
   void (*mNoteOff)(MIDIMessage message);
