@@ -4,27 +4,42 @@
 #include "PolyToMono.h"
 #include "DigitalOutputs.h"
 
-void noteOffHandler(MIDIMessage message) {
-  polyToMonoNoteOff(message.data1, message.channel);
-
-  digitialOutputsUpdateGate(polyToMonoIsNoteOn(message.channel), message.channel);
-}
-
 void noteOnHandler(MIDIMessage message) {
   polyToMonoNoteOn(message.data1, message.data2, message.channel);
 
-  digitialOutputsUpdateGate(1, message.channel);
+  digitalOutputsUpdateGate(1, message.channel);
+}
+
+void noteOffHandler(MIDIMessage message) {
+  polyToMonoNoteOff(message.data1, message.channel);
+
+  digitalOutputsUpdateGate(polyToMonoIsNoteOn(message.channel), message.channel);
 }
 
 void controlChangeHandler(MIDIMessage message) {
-  
+  switch(message.data1) {
+    case 80:
+      digitalOutputsUpdateDigi((message.data2 >= 64), message.channel, 0);
+      break;
+
+    case 81:
+      digitalOutputsUpdateDigi((message.data2 >= 64), message.channel, 1);
+      break;
+
+    case 82:
+      digitalOutputsUpdateDigi((message.data2 >= 64), message.channel, 2);
+      break;
+
+    default:
+      return;
+  }
 }
 
 void pitchBendHandler(MIDIMessage message) {
   
 }
 
-void setupMIDIHandlers(void) {
+void setMIDICallbacks(void) {
   setMIDICallback(noteOffHandler, NoteOff);
   setMIDICallback(noteOnHandler, NoteOn);
   setMIDICallback(controlChangeHandler, ControlChange);
@@ -35,7 +50,7 @@ void setup(void) {
   ioPinsSetup();
   MIDISetup();
   polyToMonoSetup();
-  setupMIDIHandlers();
+  setMIDICallbacks();
 }
 
 int main(void) {

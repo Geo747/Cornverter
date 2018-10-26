@@ -1,0 +1,9 @@
+The MIDI Config from the users point of view
+There are two channels (MIDI channels 0 and 1) which use the same commands just on the two channels
+
+Note On/Off and Velocity - Self Explanatory
+
+Digital MIDI CCs (0 to 63 Off, 64 - 127 On):
+-Digi 1 - MIDI CC 80
+-Digi 2 - MIDI CC 81
+-Digi 3 - MIDI CC 82

@@ -1,7 +1,7 @@
 //Copyright 2018 George Rennie
 #include "DigitalOutputs.h"
 
-void digitialOutputsUpdateGate(byte state, byte channel) { //Logic to update the output state of the corresponding pin for that gate
+void digitalOutputsUpdateGate(byte state, byte channel) { //Logic to update the output state of the corresponding pin for that gate
   ioPinStruct ioPin;
 
   switch (channel) {
@@ -27,7 +27,7 @@ void digitialOutputsUpdateGate(byte state, byte channel) { //Logic to update the
   }
 }
 
-void digitialOutputsUpdateDigi(byte state, byte channel, byte output) { //Logic to update the output state of the corresponding pin for that digi out
+void digitalOutputsUpdateDigi(byte state, byte channel, byte output) { //Logic to update the output state of the corresponding pin for that digi out
   ioPinStruct ioPin;
 
   switch (channel) {

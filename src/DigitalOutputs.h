@@ -4,6 +4,6 @@
 
 #include "Settings.h"
 
-void digitialOutputsUpdateGate(byte state, byte channel);
-void digitialOutputsUpdateDigi(byte state, byte channel, byte output);
+void digitalOutputsUpdateGate(byte state, byte channel);
+void digitalOutputsUpdateDigi(byte state, byte channel, byte output);
 #endif
