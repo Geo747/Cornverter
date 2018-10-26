@@ -11,16 +11,12 @@ byte channelIsUsed(byte channel) {
 
 void noteOffHandler(MIDIMessage message) {
   if (!channelIsUsed(message.channel)) { return; }
-
   polyToMonoNoteOff(message.data1, message.channel);
-  if (polyToMonoCurrentVelocity(message.channel) == 128) { PORTB = 0x00; }
 }
 
 void noteOnHandler(MIDIMessage message) {
   if (!channelIsUsed(message.channel)) { return; }
-
   polyToMonoNoteOn(message.data1, message.data2, message.channel);
-  if (polyToMonoIsNoteOn(message.channel)) { PORTB = 0xFF; }
 }
 
 void controlChangeHandler(MIDIMessage message) {
@@ -44,7 +40,6 @@ void setup(void) {
   MIDISetup();
   polyToMonoSetup();
   setupMIDIHandlers();
-  DDRB = 0xFF;
 }
 
 int main(void) {
