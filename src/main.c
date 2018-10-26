@@ -41,13 +41,10 @@ void setupMIDIHandlers(void) {
 }
 
 void setup(void) {
-  DDRB = DATA_DIR_REG_B;
-  DDRC = DATA_DIR_REG_C;
-  DDRD = DATA_DIR_REG_D;
+  ioPinsSetup();
   MIDISetup();
   polyToMonoSetup();
   setupMIDIHandlers();
-  digitalOutputsSetup();
 }
 
 int main(void) {

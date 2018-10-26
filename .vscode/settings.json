@@ -6,6 +6,8 @@
     "settings.h": "c",
     "midi.h": "c",
     "mididefs.h": "c",
-    "polytomono.h": "c"
+    "polytomono.h": "c",
+    "iopinssettings.h": "c",
+    "inttypes.h": "c"
   }
 }
