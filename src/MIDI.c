@@ -49,6 +49,11 @@ static byte isChannelMessage(MIDIType input) {
           input == NoteOff);
 }
 
+static byte channelIsUsed(byte channel) {
+  if (channel < MIDI_CHANNELS) { return 1; }
+  return 0;
+}
+
 static MIDIType getTypeFromStatusByte(byte input) {
   if ((input  < 0x80) ||
       (input == 0xA0) ||
@@ -219,6 +224,8 @@ void MIDIRead() { //Constant polling for new midi bytes
   if (!parse()){
     return;
   }
+
+  if (!channelIsUsed(d.mMessage.channel)) { return; }
 
   handleNullVelocityNoteOnAsNoteOff();
 

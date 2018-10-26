@@ -4,32 +4,23 @@
 #include "PolyToMono.h"
 #include "DigitalOutputs.h"
 
-byte channelIsUsed(byte channel) {
-  if (channel < MIDI_CHANNELS) { return 1; }
-  return 0;
-}
-
 void noteOffHandler(MIDIMessage message) {
-  if (!channelIsUsed(message.channel)) { return; }
   polyToMonoNoteOff(message.data1, message.channel);
 
   digitialOutputsUpdateGate(polyToMonoIsNoteOn(message.channel), message.channel);
 }
 
 void noteOnHandler(MIDIMessage message) {
-  if (!channelIsUsed(message.channel)) { return; }
   polyToMonoNoteOn(message.data1, message.data2, message.channel);
 
   digitialOutputsUpdateGate(1, message.channel);
 }
 
 void controlChangeHandler(MIDIMessage message) {
-  if (!channelIsUsed(message.channel)) { return; }
   
 }
 
 void pitchBendHandler(MIDIMessage message) {
-  if (!channelIsUsed(message.channel)) { return; }
   
 }
 

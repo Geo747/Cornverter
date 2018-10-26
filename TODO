@@ -1,4 +1,3 @@
-Rewrite the way pin setup works in settings to use structs or something not defines
 Add PWM and SPI ouput support
 Add Midi CC Parser to trigger the right handles
 
