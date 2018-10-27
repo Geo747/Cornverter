@@ -7,6 +7,11 @@ struct callbackStruct{
   void (*mNoteOn)(MIDIMessage message);
   void (*mControlChange)(MIDIMessage message);
   void (*mPitchBend)(MIDIMessage message);
+  void (*mClock)(MIDIMessage message);
+  void (*mStart)(MIDIMessage message);
+  void (*mContinue)(MIDIMessage message);
+  void (*mStop)(MIDIMessage message);
+
 };
 
 //Initialise callbacks to disconnected
@@ -15,6 +20,10 @@ struct callbackStruct callbacks = {
   .mNoteOn = 0,
   .mControlChange = 0,
   .mPitchBend = 0,
+  .mClock = 0,
+  .mStart = 0,
+  .mContinue = 0,
+  .mStop = 0,
 };
 
 //Data for the library, not declared in .h so just visible in this file
@@ -59,7 +68,8 @@ static MIDIType getTypeFromStatusByte(byte input) {
       (input == 0xA0) ||
       (input == 0xC0) ||
       (input == 0xD0) ||
-      (input >= 0xF0))
+      ((input >= 0xF0) && (input <= 0xF7)) ||
+      (input >= 0xFE))
   {
       // input is either a data byte or undefined with current setup (see MIDIType in MIDIDefs.h)
       return InvalidType;
@@ -71,7 +81,7 @@ static MIDIType getTypeFromStatusByte(byte input) {
       return (input & 0xF0);
   }
 
-  //Should automatically be cast to MIDIType cos typedef enum I yhink
+  //Should automatically be cast to MIDIType cos typedef enum I think
   return input;
 }
 
@@ -112,6 +122,23 @@ static byte parse(void) {
     {
       //If defining more types of MIDI messages, how they are handled can be modified here
 
+      case Start:
+      case Continue:
+      case Stop:
+      case Clock:
+        // Handle the message type directly here.
+        d.mMessage.type    = getTypeFromStatusByte(d.mPendingMessage[0]);
+        d.mMessage.channel = 0;
+        d.mMessage.data1   = 0;
+        d.mMessage.data2   = 0;
+
+        // We still need to reset these
+        d.mPendingMessageIndex = 0;
+        d.mPendingMessageExpectedLength = 0;
+
+        return 1;
+        break;
+
       // 3 bytes messages
       case NoteOn:
       case NoteOff:
@@ -147,6 +174,28 @@ static byte parse(void) {
       // Reception of status bytes in the middle of an uncompleted message
       // are allowed only for interleaved Real Time message or EOX
       // Write code to handle rt messages here if you want them
+
+      switch (extracted) {
+        case Clock:
+        case Start:
+        case Continue:
+        case Stop:
+          // Here we will have to extract the one-byte message,
+          // pass it to the structure for being read outside
+          // the MIDI class, and recompose the message it was
+          // interleaved into. Oh, and without killing the running status..
+          // This is done by leaving the pending message as is,
+          // it will be completed on next calls.
+
+          d.mMessage.type    = (MIDIType)extracted;
+          d.mMessage.data1   = 0;
+          d.mMessage.data2   = 0;
+          d.mMessage.channel = 0;
+          return 1;
+
+          break;
+        
+      }
 
       // Exit out as we dont care about this byte in this implementation
       return 0;
@@ -208,10 +257,14 @@ static byte parse(void) {
 //Launches callbacks from MIDIread() according to message type and if a callback is implemented
 static void launchCallback(void) {
   switch (d.mMessage.type) {
-    case NoteOff: if(callbacks.mNoteOff != 0) { callbacks.mNoteOff(d.mMessage); } break;
-    case NoteOn: if(callbacks.mNoteOn != 0) { callbacks.mNoteOn(d.mMessage); } break;
+    case NoteOff:       if(callbacks.mNoteOff != 0)       { callbacks.mNoteOff(d.mMessage);       } break;
+    case NoteOn:        if(callbacks.mNoteOn != 0)        { callbacks.mNoteOn(d.mMessage);        } break;
     case ControlChange: if(callbacks.mControlChange != 0) { callbacks.mControlChange(d.mMessage); } break;
-    case PitchBend: if(callbacks.mPitchBend != 0) { callbacks.mPitchBend(d.mMessage); } break;
+    case PitchBend:     if(callbacks.mPitchBend != 0)     { callbacks.mPitchBend(d.mMessage);     } break;
+    case Clock:         if(callbacks.mClock != 0)         { callbacks.mClock(d.mMessage);         } break;
+    case Start:         if(callbacks.mStart != 0)         { callbacks.mStart(d.mMessage);         } break;
+    case Continue:      if(callbacks.mContinue != 0)      { callbacks.mContinue(d.mMessage);      } break;
+    case Stop:          if(callbacks.mStop != 0)          { callbacks.mStop(d.mMessage);          } break;
     default: break;
   }
 }
@@ -237,10 +290,14 @@ void MIDIRead() { //Constant polling for new midi bytes
 //Allows user to set callback by giving target function and midi message type
 void setMIDICallback(void (*fptr)(MIDIMessage message), MIDIType type) {
   switch (type) {
-    case NoteOff: callbacks.mNoteOff = fptr; break;
-    case NoteOn: callbacks.mNoteOn = fptr; break;
-    case ControlChange: callbacks.mControlChange = fptr; break;
-    case PitchBend: callbacks.mPitchBend = fptr; break;
+    case NoteOff:       callbacks.mNoteOff        = fptr; break;
+    case NoteOn:        callbacks.mNoteOn         = fptr; break;
+    case ControlChange: callbacks.mControlChange  = fptr; break;
+    case PitchBend:     callbacks.mPitchBend      = fptr; break;
+    case Clock:         callbacks.mClock          = fptr; break;
+    case Start:         callbacks.mStart          = fptr; break;
+    case Continue:      callbacks.mContinue       = fptr; break;
+    case Stop:          callbacks.mStop           = fptr; break;
     default: break;
   }
 }

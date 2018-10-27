@@ -5,6 +5,9 @@
 #include "DigitalOutputs.h"
 #include "PWMOutputs.h"
 
+byte clockCounter = 0;
+byte resetState = 0;
+
 void noteOnHandler(MIDIMessage message) {
   polyToMonoNoteOn(message.data1, message.data2, message.channel);
 
@@ -48,11 +51,39 @@ void pitchBendHandler(MIDIMessage message) {
   
 }
 
+void clockHandler(MIDIMessage message) {
+  if (clockCounter == 0) { digitalOutputsUpdateClock(1); }
+  else if (clockCounter == 2) {
+    if (resetState) { 
+      digitalOutputsUpdateReset(0);
+      resetState = 0;
+    }
+    digitalOutputsUpdateClock(0); 
+  }
+  clockCounter = (clockCounter + 1) % 4; //Outputs a clock pulse every 12th of a quarter note
+}
+
+void startContinueHandler(MIDIMessage message) {
+  digitalOutputsUpdateReset(1);
+  resetState = 1;
+  clockCounter = 0;
+}
+
+void stopHandler(MIDIMessage message) {
+  digitalOutputsUpdateClock(0);
+  digitalOutputsUpdateReset(0);
+  resetState = 0;
+}
+
 void setMIDICallbacks(void) {
-  setMIDICallback(noteOffHandler, NoteOff);
-  setMIDICallback(noteOnHandler, NoteOn);
+  setMIDICallback(noteOffHandler,       NoteOff);
+  setMIDICallback(noteOnHandler,        NoteOn);
   setMIDICallback(controlChangeHandler, ControlChange);
-  setMIDICallback(pitchBendHandler, PitchBend);
+  setMIDICallback(pitchBendHandler,     PitchBend);
+  setMIDICallback(clockHandler,         Clock);
+  setMIDICallback(startContinueHandler, Start);
+  setMIDICallback(startContinueHandler, Continue);
+  setMIDICallback(stopHandler,          Stop);
 }
 
 void setup(void) {

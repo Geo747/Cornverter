@@ -10,6 +10,7 @@
     "iopinssettings.h": "c",
     "inttypes.h": "c",
     "digitaloutputs.h": "c",
-    "pwmoutputs.h": "c"
+    "pwmoutputs.h": "c",
+    "clockcontroller.h": "c"
   }
 }

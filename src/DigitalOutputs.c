@@ -84,3 +84,31 @@ void digitalOutputsUpdateDigi(byte state, byte channel, byte output) { //Logic t
       return;
   }
 }
+
+void digitalOutputsUpdateClock(byte state) {
+  ioPinStruct ioPin = ioPins.clockOut;
+  switch (state) {
+    case 0:
+      *ioPinsGetPORT(ioPin) &= ~(1 << ioPin.bit);
+      break;
+    case 1:
+      *ioPinsGetPORT(ioPin) |= (1 << ioPin.bit);
+      break;
+    default:
+      return;
+  }
+}
+
+void digitalOutputsUpdateReset(byte state) {
+  ioPinStruct ioPin = ioPins.resetOut;
+  switch (state) {
+    case 0:
+      *ioPinsGetPORT(ioPin) &= ~(1 << ioPin.bit);
+      break;
+    case 1:
+      *ioPinsGetPORT(ioPin) |= (1 << ioPin.bit);
+      break;
+    default:
+      return;
+  }
+}

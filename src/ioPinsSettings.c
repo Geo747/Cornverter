@@ -51,6 +51,14 @@ const ioPinsStruct ioPins = {
   .ana2ch2.portLetter   = 'B',
   .ana2ch2.bit          =  2 ,
   .ana2ch2.direction    =  1 ,
+
+  .clockOut.portLetter  = 'D',
+  .clockOut.bit         =  2 ,
+  .clockOut.direction   =  1 ,
+
+  .resetOut.portLetter  = 'D',
+  .resetOut.bit         =  3 ,
+  .resetOut.direction   =  1 ,
 };
 
 volatile uint8_t* ioPinsGetPORT(ioPinStruct ioPin) {
@@ -103,4 +111,6 @@ void ioPinsSetup(void) {
   initPin(ioPins.ana2ch1);
   initPin(ioPins.ana1ch2);
   initPin(ioPins.ana2ch2);
+  initPin(ioPins.clockOut);
+  initPin(ioPins.resetOut);
 }

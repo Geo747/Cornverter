@@ -23,10 +23,10 @@ typedef enum
   //SongPosition          = 0xF2,    ///< System Common - Song Position Pointer
   //SongSelect            = 0xF3,    ///< System Common - Song Select
   //TuneRequest           = 0xF6,    ///< System Common - Tune Request
-  //Clock                 = 0xF8,    ///< System Real Time - Timing Clock
-  //Start                 = 0xFA,    ///< System Real Time - Start
-  //Continue              = 0xFB,    ///< System Real Time - Continue
-  //Stop                  = 0xFC,    ///< System Real Time - Stop
+  Clock                 = 0xF8,    ///< System Real Time - Timing Clock
+  Start                 = 0xFA,    ///< System Real Time - Start
+  Continue              = 0xFB,    ///< System Real Time - Continue
+  Stop                  = 0xFC,    ///< System Real Time - Stop
   //ActiveSensing         = 0xFE,    ///< System Real Time - Active Sensing
   //SystemReset           = 0xFF,    ///< System Real Time - System Reset
 } MIDIType;

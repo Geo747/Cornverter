@@ -30,6 +30,9 @@ typedef struct {
   ioPinStruct ana1ch2;
   ioPinStruct ana2ch2;
 
+  ioPinStruct clockOut;
+  ioPinStruct resetOut;
+
 } ioPinsStruct;
 
 //Struct with pin data in, defined in .c
