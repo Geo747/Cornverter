@@ -25,6 +25,11 @@ typedef struct {
   ioPinStruct digi2ch2;
   ioPinStruct digi3ch2;
 
+  ioPinStruct ana1ch1;
+  ioPinStruct ana2ch1;
+  ioPinStruct ana1ch2;
+  ioPinStruct ana2ch2;
+
 } ioPinsStruct;
 
 //Struct with pin data in, defined in .c

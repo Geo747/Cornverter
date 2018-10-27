@@ -3,6 +3,7 @@
 #include "MIDI.h"
 #include "PolyToMono.h"
 #include "DigitalOutputs.h"
+#include "PWMOutputs.h"
 
 void noteOnHandler(MIDIMessage message) {
   polyToMonoNoteOn(message.data1, message.data2, message.channel);
@@ -30,6 +31,14 @@ void controlChangeHandler(MIDIMessage message) {
       digitalOutputsUpdateDigi((message.data2 >= 64), message.channel, 2);
       break;
 
+    case 1:
+      pwmWrite(message.data2, message.channel, 0);
+      break;
+
+    case 16:
+      pwmWrite(message.data2, message.channel, 1);
+      break;
+
     default:
       return;
   }
@@ -51,6 +60,7 @@ void setup(void) {
   MIDISetup();
   polyToMonoSetup();
   setMIDICallbacks();
+  pwmSetup();
 }
 
 int main(void) {
