@@ -1,6 +1,8 @@
 Add PWM and SPI ouput support
 Add Midi CC Parser to trigger the right handles
 
+Remove switches from hardware design and replace with digi outs on those pins giving quarter notes and another 16th note, or a digital output maybe
+
 For MIDI:
 Add support for:
 Bn 7B 00 messages - All notes off (sent on stop while stopped in fl (i.e double press of stop) and general init)
@@ -10,3 +12,5 @@ FC - Stop (sent on pause in fl and stop whilst playing in fl)
 FB - Continue (sent on play when continuing from previous point in fl)
 Dont bother with MTC Quarter Frames
 Note - FL sends note off messages for any notes that dont have time to reach their note end cos playback is stopped
+
+Add tuning mode for calibrating pitch amplifiers

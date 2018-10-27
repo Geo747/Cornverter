@@ -3,7 +3,7 @@
 #include "ioPinsSettings.h"
 
 //Remember to define every pin in this
-ioPinsStruct ioPins = {
+const ioPinsStruct ioPins = {
   .gate1.portLetter     = 'D',
   .gate1.bit            =  7 ,
   .gate1.direction      =  1 ,

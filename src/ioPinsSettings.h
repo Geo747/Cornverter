@@ -28,7 +28,7 @@ typedef struct {
 } ioPinsStruct;
 
 //Struct with pin data in, defined in .c
-extern ioPinsStruct ioPins;
+extern const ioPinsStruct ioPins;
 
 //Helpful function
 volatile uint8_t* ioPinsGetPORT(ioPinStruct ioPin);

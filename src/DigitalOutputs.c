@@ -3,7 +3,7 @@
 
 void digitalOutputsUpdateGate(byte state, byte channel) { //Logic to update the output state of the corresponding pin for that gate
   ioPinStruct ioPin;
-
+  
   switch (channel) {
     case 0:
       ioPin = ioPins.gate1;
