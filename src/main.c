@@ -42,6 +42,14 @@ void controlChangeHandler(MIDIMessage message) {
       pwmWrite(message.data2, message.channel, 1);
       break;
 
+    case 120:
+    case 123:
+      //Midi all notes off messages
+      digitalOutputsUpdateGate(0, message.channel); //Turn off gate
+      polyToMonoAllNotesOff(message.channel); //Turn off notes
+      //Leave other controllers as they are
+      break;
+
     default:
       return;
   }

@@ -7,6 +7,7 @@
 void polyToMonoSetup(void);
 void polyToMonoNoteOn(byte note, byte velocity, byte channel);
 void polyToMonoNoteOff(byte note, byte channel);
+void polyToMonoAllNotesOff(byte channel);
 
 byte polyToMonoCurrentNote(byte channel);
 byte polyToMonoCurrentVelocity(byte channel);

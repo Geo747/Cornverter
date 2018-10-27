@@ -63,6 +63,13 @@ void polyToMonoNoteOff(byte note, byte channel) {
 	return;
 }
 
+void polyToMonoAllNotesOff(byte channel) {
+  while (saveNote[channel] != 128) {
+    data[channel][saveNote[channel]][2] = 128; //Set last note on stack velocity  to 0
+		saveNote[channel] = data[channel][saveNote[channel]][0]; //As the velocity has been set to 128 (off) the values left in its references are irrelevant    
+  }
+}
+
 byte polyToMonoCurrentNote(byte channel) {
   if (!channelInRange(channel)) { return 128; }
 
