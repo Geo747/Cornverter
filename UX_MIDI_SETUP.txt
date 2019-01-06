@@ -1,6 +1,9 @@
+Copyright George Rennie 2018
+
+CORNVERTER MIDI CONFIGURATION
+
 The MIDI Config from the users point of view
-There are two channels (MIDI channels 0 and 1) which use the same commands just on the two channels
-It is configured to use MIDI port 60 in FL
+There are two channels (MIDI channels 0 and 1) which use the same commands just on the two MIDI channels
 
 Note On/Off and Gate - Self Explanatory
 
