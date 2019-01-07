@@ -12,17 +12,17 @@ Ignoring empty pin current: Ix(u2:vdd)
 Ignoring empty pin current: Ix(u4:vdd)
 Ignoring empty pin current: Ix(u5:vdd)
 
-Date: Sat Jan 05 17:13:56 2019
-Total elapsed time: 3.179 seconds.
+Date: Sun Jan 06 20:26:29 2019
+Total elapsed time: 2.994 seconds.
 
 tnom = 27
 temp = 27
 method = modified trap
-totiter = 203083
-traniter = 203065
-tranpoints = 101204
-accept = 100989
-rejected = 215
+totiter = 202839
+traniter = 202821
+tranpoints = 101148
+accept = 100953
+rejected = 195
 matrix size = 47
 fillins = 0
 solver = Normal

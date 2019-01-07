@@ -7,20 +7,20 @@ Ignoring empty pin current: Ix(u2:vdd)
 Ignoring empty pin current: Ix(u1:vdd)
 Ignoring empty pin current: Ix(u2:vdd)
 
-Date: Sat Jan 05 23:53:29 2019
-Total elapsed time: 0.166 seconds.
+Date: Sun Jan 06 20:28:00 2019
+Total elapsed time: 0.098 seconds.
 
 tnom = 27
 temp = 27
 method = modified trap
-totiter = 2862
-traniter = 2853
-tranpoints = 1387
-accept = 1242
-rejected = 145
+totiter = 2846
+traniter = 2837
+tranpoints = 1388
+accept = 1239
+rejected = 149
 matrix size = 23
 fillins = 0
 solver = Normal
-Matrix Compiler1: 600 bytes object code size  0.1/0.1/[0.1]
-Matrix Compiler2: 1.26 KB object code size  0.1/0.2/[0.1]
+Matrix Compiler1: 600 bytes object code size  0.2/0.1/[0.1]
+Matrix Compiler2: 1.26 KB object code size  0.1/0.7/[0.1]
 
