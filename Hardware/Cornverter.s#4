@@ -29905,6 +29905,7 @@ DAC and ICSP</text>
 <pinref part="C28" gate="G$1" pin="1"/>
 <wire x1="203.2" y1="68.58" x2="203.2" y2="76.2" width="0.1524" layer="91"/>
 <wire x1="203.2" y1="76.2" x2="195.58" y2="76.2" width="0.1524" layer="91"/>
+<junction x="195.58" y="76.2"/>
 </segment>
 </net>
 </nets>
@@ -30531,8 +30532,8 @@ DAC and ICSP</text>
 <approved hash="104,5,-5.08,63.5,IC7P,VDD,+5V,,,"/>
 <approved hash="202,6,195.58,142.24,IC8E,I,,,,"/>
 <approved hash="202,6,195.58,127,IC8F,I,,,,"/>
-<approved hash="104,6,-17.78,63.5,IC8P,VSS,AGND,,,"/>
-<approved hash="104,6,-17.78,78.74,IC8P,VDD,+5V,,,"/>
+<approved hash="104,6,195.58,60.96,IC8P,VSS,AGND,,,"/>
+<approved hash="104,6,195.58,76.2,IC8P,VDD,N$124,,,"/>
 </errors>
 </schematic>
 </drawing>

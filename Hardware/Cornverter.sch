@@ -27642,9 +27642,9 @@ DAC and ICSP</text>
 <attribute name="NAME" x="59.944" y="35.941" size="1.778" layer="95"/>
 <attribute name="VALUE" x="59.944" y="30.861" size="1.778" layer="96"/>
 </instance>
-<instance part="C8" gate="G$1" x="76.2" y="-7.62" smashed="yes" rot="R90">
-<attribute name="NAME" x="75.7174" y="-6.477" size="1.778" layer="95" rot="R90"/>
-<attribute name="VALUE" x="80.7974" y="-6.477" size="1.778" layer="96" rot="R90"/>
+<instance part="C8" gate="G$1" x="78.74" y="-7.62" smashed="yes" rot="R270">
+<attribute name="NAME" x="79.2226" y="-8.763" size="1.778" layer="95" rot="R270"/>
+<attribute name="VALUE" x="74.1426" y="-8.763" size="1.778" layer="96" rot="R270"/>
 </instance>
 <instance part="C5" gate="G$1" x="48.26" y="12.7" smashed="yes">
 <attribute name="NAME" x="49.403" y="13.1826" size="1.778" layer="95"/>
@@ -27752,15 +27752,15 @@ DAC and ICSP</text>
 <wire x1="58.42" y1="22.86" x2="71.12" y2="22.86" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="22.86" x2="71.12" y2="2.54" width="0.1524" layer="91"/>
 <pinref part="SUPPLY8" gate="G$1" pin="AGND"/>
-<pinref part="C8" gate="G$1" pin="+"/>
 <wire x1="71.12" y1="2.54" x2="71.12" y2="-7.62" width="0.1524" layer="91"/>
-<wire x1="71.12" y1="-7.62" x2="71.12" y2="-10.16" width="0.1524" layer="91"/>
-<wire x1="73.66" y1="-7.62" x2="71.12" y2="-7.62" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="GROUND"/>
+<wire x1="71.12" y1="-7.62" x2="71.12" y2="-10.16" width="0.1524" layer="91"/>
 <wire x1="81.28" y1="2.54" x2="71.12" y2="2.54" width="0.1524" layer="91"/>
 <junction x="71.12" y="2.54"/>
-<junction x="71.12" y="-7.62"/>
 <label x="12.7" y="22.86" size="1.778" layer="95"/>
+<pinref part="C8" gate="G$1" pin="-"/>
+<wire x1="71.12" y1="-7.62" x2="73.66" y2="-7.62" width="0.1524" layer="91"/>
+<junction x="71.12" y="-7.62"/>
 </segment>
 <segment>
 <pinref part="SUPPLY68" gate="G$1" pin="AGND"/>
@@ -27785,9 +27785,7 @@ DAC and ICSP</text>
 </net>
 <net name="+5V" class="0">
 <segment>
-<pinref part="C8" gate="G$1" pin="-"/>
 <pinref part="IC1" gate="G$1" pin="VOUT"/>
-<wire x1="81.28" y1="-7.62" x2="83.82" y2="-7.62" width="0.1524" layer="91"/>
 <wire x1="83.82" y1="-7.62" x2="83.82" y2="0" width="0.1524" layer="91"/>
 <wire x1="83.82" y1="0" x2="83.82" y2="2.54" width="0.1524" layer="91"/>
 <wire x1="83.82" y1="0" x2="88.9" y2="0" width="0.1524" layer="91"/>
@@ -27799,6 +27797,8 @@ DAC and ICSP</text>
 <pinref part="SUPPLY9" gate="+5V" pin="+5V"/>
 <junction x="83.82" y="0"/>
 <junction x="86.36" y="38.1"/>
+<pinref part="C8" gate="G$1" pin="+"/>
+<wire x1="81.28" y1="-7.62" x2="83.82" y2="-7.62" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="-12V" class="0">

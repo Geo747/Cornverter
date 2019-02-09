@@ -29895,7 +29895,7 @@ DAC and ICSP</text>
 <pinref part="IC8" gate="D" pin="O"/>
 </segment>
 </net>
-<net name="N$124" class="0">
+<net name="TOP+5V" class="0">
 <segment>
 <pinref part="JP14" gate="A" pin="5"/>
 <wire x1="86.36" y1="109.22" x2="91.44" y2="109.22" width="0.1524" layer="91"/>
