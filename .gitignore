@@ -1,0 +1,8 @@
+*.b#*
+*.s#*
+~$*.xlsx
+*.raw
+*.net
+*.log
+Firmware/build/
+Firmware/bin/
