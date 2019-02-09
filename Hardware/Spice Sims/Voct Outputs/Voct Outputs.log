@@ -1,22 +1,28 @@
 Circuit: * C:\!!Product Design\Cornverter\Hardware\Spice Sims\Voct Outputs\Voct Outputs.asc
 
 Direct Newton iteration for .op point succeeded.
+.step pot1val=0
+.step pot1val=20
+.step pot1val=40
+.step pot1val=60
+.step pot1val=80
+.step pot1val=100
 
-Date: Mon Jan 07 14:48:35 2019
-Total elapsed time: 0.291 seconds.
+Date: Sat Feb 09 16:19:10 2019
+Total elapsed time: 0.849 seconds.
 
 tnom = 27
 temp = 27
 method = modified trap
-totiter = 10096
-traniter = 10078
-tranpoints = 5040
-accept = 5036
+totiter = 10092
+traniter = 10074
+tranpoints = 5038
+accept = 5034
 rejected = 4
 matrix size = 90
-fillins = 62
+fillins = 60
 solver = Normal
-Thread vector: 3.0/2.2[2] 1.2/1.4[1] 0.4/0.8[1] 0.3/1.0[1]  2592/500
-Matrix Compiler1: 5.71 KB object code size  1.1/0.5/[0.2]
-Matrix Compiler2: 7.87 KB object code size  0.5/0.8/[0.3]
+Thread vector: 2.6/2.2[2] 1.1/1.2[1] 0.4/0.7[1] 0.2/1.0[1]  2592/500
+Matrix Compiler1: 5.76 KB object code size  1.1/0.5/[0.3]
+Matrix Compiler2: 7.81 KB object code size  0.5/0.7/[0.3]
 

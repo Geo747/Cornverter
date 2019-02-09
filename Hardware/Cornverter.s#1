@@ -29419,15 +29419,15 @@ DAC and ICSP</text>
 <attribute name="NAME" x="109.22" y="145.415" size="1.778" layer="95"/>
 <attribute name="VALUE" x="109.22" y="137.16" size="1.778" layer="96"/>
 </instance>
-<instance part="IC8" gate="B" x="109.22" y="124.46" smashed="yes">
+<instance part="IC8" gate="D" x="109.22" y="124.46" smashed="yes">
 <attribute name="NAME" x="111.76" y="127.635" size="1.778" layer="95"/>
 <attribute name="VALUE" x="111.76" y="119.38" size="1.778" layer="96"/>
 </instance>
-<instance part="IC8" gate="C" x="106.68" y="101.6" smashed="yes">
+<instance part="IC8" gate="B" x="106.68" y="101.6" smashed="yes">
 <attribute name="NAME" x="109.22" y="104.775" size="1.778" layer="95"/>
 <attribute name="VALUE" x="109.22" y="96.52" size="1.778" layer="96"/>
 </instance>
-<instance part="IC8" gate="D" x="106.68" y="83.82" smashed="yes">
+<instance part="IC8" gate="C" x="106.68" y="83.82" smashed="yes">
 <attribute name="NAME" x="109.22" y="86.995" size="1.778" layer="95"/>
 <attribute name="VALUE" x="109.22" y="78.74" size="1.778" layer="96"/>
 </instance>
@@ -29483,7 +29483,7 @@ DAC and ICSP</text>
 <wire x1="86.36" y1="119.38" x2="96.52" y2="119.38" width="0.1524" layer="91"/>
 <wire x1="96.52" y1="119.38" x2="96.52" y2="124.46" width="0.1524" layer="91"/>
 <wire x1="96.52" y1="124.46" x2="99.06" y2="124.46" width="0.1524" layer="91"/>
-<pinref part="IC8" gate="B" pin="I"/>
+<pinref part="IC8" gate="D" pin="I"/>
 </segment>
 </net>
 <net name="N$42" class="0">
@@ -29652,7 +29652,7 @@ DAC and ICSP</text>
 <wire x1="86.36" y1="111.76" x2="93.98" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="93.98" y1="111.76" x2="93.98" y2="88.9" width="0.1524" layer="91"/>
 <wire x1="93.98" y1="83.82" x2="96.52" y2="83.82" width="0.1524" layer="91"/>
-<pinref part="IC8" gate="D" pin="I"/>
+<pinref part="IC8" gate="C" pin="I"/>
 </segment>
 </net>
 <net name="N$31" class="0">
@@ -29678,7 +29678,7 @@ DAC and ICSP</text>
 <pinref part="JP14" gate="A" pin="3"/>
 <wire x1="96.52" y1="106.68" x2="96.52" y2="114.3" width="0.1524" layer="91"/>
 <wire x1="96.52" y1="114.3" x2="86.36" y2="114.3" width="0.1524" layer="91"/>
-<pinref part="IC8" gate="C" pin="I"/>
+<pinref part="IC8" gate="B" pin="I"/>
 </segment>
 </net>
 <net name="N$35" class="0">
@@ -29878,13 +29878,13 @@ DAC and ICSP</text>
 <net name="N$116" class="0">
 <segment>
 <pinref part="R38" gate="G$1" pin="2"/>
-<pinref part="IC8" gate="B" pin="O"/>
+<pinref part="IC8" gate="D" pin="O"/>
 </segment>
 </net>
 <net name="N$117" class="0">
 <segment>
 <pinref part="R39" gate="G$1" pin="2"/>
-<pinref part="IC8" gate="C" pin="O"/>
+<pinref part="IC8" gate="B" pin="O"/>
 <wire x1="116.84" y1="101.6" x2="119.38" y2="101.6" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -29892,7 +29892,7 @@ DAC and ICSP</text>
 <segment>
 <pinref part="R40" gate="G$1" pin="2"/>
 <wire x1="116.84" y1="83.82" x2="119.38" y2="83.82" width="0.1524" layer="91"/>
-<pinref part="IC8" gate="D" pin="O"/>
+<pinref part="IC8" gate="C" pin="O"/>
 </segment>
 </net>
 <net name="TOP+5V" class="0">
@@ -30533,7 +30533,7 @@ DAC and ICSP</text>
 <approved hash="202,6,195.58,142.24,IC8E,I,,,,"/>
 <approved hash="202,6,195.58,127,IC8F,I,,,,"/>
 <approved hash="104,6,195.58,60.96,IC8P,VSS,AGND,,,"/>
-<approved hash="104,6,195.58,76.2,IC8P,VDD,N$124,,,"/>
+<approved hash="104,6,195.58,76.2,IC8P,VDD,TOP+5V,,,"/>
 </errors>
 </schematic>
 </drawing>

@@ -1,0 +1,67 @@
+Qty	Value	Device	Package	Parts	Description	DESCRIPTION	HEIGHT	MANUFACTURER_NAME	MANUFACTURER_PART_NUMBER	MF	MOUSER_PART_NUMBER	MPN	OC_FARNELL	OC_NEWARK	PROD_ID	SPICEPREFIX	VALUE
+1	bGND	PINHD-1X2	1X02	JP21	PIN HEADER												
+1	bMIDI	PINHD-1X2	1X02	JP5	PIN HEADER												
+1	tGND	PINHD-1X2	1X02	JP22	PIN HEADER												
+1	tMIDI	PINHD-1X2	1X02	JP6	PIN HEADER												
+1	bAna1	PINHD-1X4	1X04	JP9	PIN HEADER												
+1	bAna2	PINHD-1X4	1X04	JP11	PIN HEADER												
+1	bClk	PINHD-1X4	1X04	JP15	PIN HEADER												
+1	bVOCT	PINHD-1X4	1X04	JP7	PIN HEADER												
+1	tAna1	PINHD-1X4	1X04	JP10	PIN HEADER												
+1	tAna2	PINHD-1X4	1X04	JP12	PIN HEADER												
+1	tClk	PINHD-1X4	1X04	JP16	PIN HEADER												
+1	tVOCT	PINHD-1X4	1X04	JP8	PIN HEADER												
+1	bGate1	PINHD-1X5	1X05	JP13	PIN HEADER												
+1	tGate1	PINHD-1X5	1X05	JP14	PIN HEADER												
+1	bDig1	PINHD-1X6	1X06	JP17	PIN HEADER												
+1	bDig2	PINHD-1X6	1X06	JP18	PIN HEADER												
+1	tDig1	PINHD-1X6	1X06	JP19	PIN HEADER												
+1	tDig2	PINHD-1X6	1X06	JP20	PIN HEADER												
+1	ICSP	PINHD-2X3	2X03	JP1	PIN HEADER												
+1	10 Pin Power	PINHD-2X5	2X05	JP3	PIN HEADER												
+2	3306P-1-103 (10K)	3306P-1-103	3306P1103	"R7, R12"	"3306P 1-turn cermet trimmer,10K 300mW Bourns 3306P Series Through Hole Cermet Trimmer Resistor with Pin Terminations, 10k 25% 1/5W 250ppm/C Top Adjust"	"3306P 1-turn cermet trimmer,10K 300mW Bourns 3306P Series Through Hole Cermet Trimmer Resistor with Pin Terminations, 10k 25% 1/5W 250ppm/C Top Adjust"	8mm	Bourns	3306P-1-103		652-3306P-1-103						
+12	100nF	C-EUC1206	C1206	"C1, C6, C7, C9, C10, C11, C20, C21, C24, C25, C27, C28"	"CAPACITOR, European symbol"											C	
+8	10nF	C-EUC1206	C1206	"C12, C13, C14, C15, C16, C17, C18, C19"	"CAPACITOR, European symbol"											C	
+2	22pF	C-EUC1206	C1206	"C2, C3"	"CAPACITOR, European symbol"											C	
+2	33nF	C-EUC1206	C1206	"C22, C23"	"CAPACITOR, European symbol"											C	
+1	6N138	6N138	DIL08	OK1	MOTOROLA OPTO COUPLER					VISHAY/TELEFUNKEN		6N138	9860150	35K5294		X	
+1	328P	ATMEGA328P_PDIP	DIP28	U1	Atmel 328P										IC-09136		328P
+3	1N4148	1N4148DO35-7	DO35-7	"D3, D4, D5"	DIODE												
+3	10uF	CPOL-EUE2-5	E2-5	"C4, C5, C8"	"POLARIZED CAPACITOR, European symbol"											C	
+1	16Mhz	CRYSTALHC49S	HC49/S	Q1	CRYSTAL								1667008	unknown			
+1	GND_LIFT	JP1E	JP1	JP4	JUMPER												
+1	PRGRM_EN	JP3Q	JP3Q	JP2	JUMPER												
+12	Blue	LED3MM	LED3MM	"LED7, LED8, LED9, LED10, LED11, LED12, LED13, LED14, LED15, LED16, LED17, LED18"	3MM LED with clearer silkscreen than stock												
+6	Green	LED3MM	LED3MM	"LED1, LED2, LED3, LED4, LED5, LED6"	3MM LED with clearer silkscreen than stock												
+2	100K	R-EU_R1206	R1206	"R6, R11"	"RESISTOR, European symbol"											R	
+2	105K	R-EU_R1206	R1206	"R8, R13"	"RESISTOR, European symbol"											R	
+1	10K	R-EU_R1206	R1206	R1	"RESISTOR, European symbol"												
+22	1K	R-EU_R1206	R1206	"R5, R9, R10, R14, R27, R28, R29, R30, R33, R34, R41, R42, R43, R44, R45, R46, R53, R54, R55, R56, R57, R58"	"RESISTOR, European symbol"											R	
+3	1M	R-EU_R1206	R1206	"R2, R35, R36"	"RESISTOR, European symbol"											R	
+2	220	R-EU_R1206	R1206	"R3, R4"	"RESISTOR, European symbol"											R	
+8	22K	R-EU_R1206	R1206	"R19, R20, R21, R22, R23, R24, R25, R26"	"RESISTOR, European symbol"											R	
+16	330	R-EU_R1206	R1206	"R15, R16, R17, R18, R31, R32, R37, R38, R39, R40, R47, R48, R49, R50, R51, R52"	"RESISTOR, European symbol"											R	
+2	TL074D	TL074D	SO14	"IC3, IC4"	OP AMP												
+4	4050D	4050D	SO16	"IC5, IC6, IC7, IC8"	Hex non-inverting BUFFER												
+2	1N5819HW	DIODE-SOD123	SOD123	"D1, D2"	DIODE												
+1	MCP4822-E_SN	MCP4822-E_SN	SOIC127P600X175-8N	IC2	D/A Converter 12-Bit 2ch SPI SOIC8	D/A Converter 12-Bit 2ch SPI SOIC8	1.75mm	Microchip	MCP4822-E/SN		579-MCP4822-E/SN						
+1	LD1117S50TR	LD1117S50TR	SOT230P700X190-4N	IC1	"LD1117S50TR, Low Dropout Voltage Regulator, 1.3A, 5 V 1%, 4-Pin SOT-223"	"LD1117S50TR, Low Dropout Voltage Regulator, 1.3A, 5 V 1%, 4-Pin SOT-223"	1.9mm	STMicroelectronics	LD1117S50TR		511-LD1117S50						
+1	Ch1 Ana 1 Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J4	Thonkiconn mono jack												
+1	Ch1 Ana 2 Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J5	Thonkiconn mono jack												
+1	Ch1 Digi 1 Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J14	Thonkiconn mono jack												
+1	Ch1 Digi 2 Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J15	Thonkiconn mono jack												
+1	Ch1 Digi 3 Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J16	Thonkiconn mono jack												
+1	Ch1 Gate Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J8	Thonkiconn mono jack												
+1	Ch1 Pitch Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J2	Thonkiconn mono jack												
+1	Ch1 Trig Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J9	Thonkiconn mono jack												
+1	Ch2 Ana 1 Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J6	Thonkiconn mono jack												
+1	Ch2 Ana 2 Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J7	Thonkiconn mono jack												
+1	Ch2 Digi 1 Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J17	Thonkiconn mono jack												
+1	Ch2 Digi 2 Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J18	Thonkiconn mono jack												
+1	Ch2 Digi 3 Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J19	Thonkiconn mono jack												
+1	Ch2 Gate Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J10	Thonkiconn mono jack												
+1	Ch2 Pitch Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J3	Thonkiconn mono jack												
+1	Ch2 Trig Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J11	Thonkiconn mono jack												
+1	Clock Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J12	Thonkiconn mono jack												
+1	Clock Reset Out	WQP-PJ301M-12_JACK	WQP-PJ301M-12_JACK	J13	Thonkiconn mono jack												
+1	MIDI_IN (Stereo TRS)	WQP-PJ301M-12-ST_JACK	WQP-PJ301M-12-ST_JACK	J1	Thonkiconn stereo jack												
