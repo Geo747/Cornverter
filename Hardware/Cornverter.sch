@@ -27279,6 +27279,7 @@ Based on the following sources:
 <part name="SUPPLY70" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="AGND" device="" value="GND"/>
 <part name="SUPPLY71" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="AGND" device="" value="GND"/>
 <part name="SUPPLY72" library="supply2" library_urn="urn:adsk.eagle:library:372" deviceset="+5V" device=""/>
+<part name="C26" library="rcl" library_urn="urn:adsk.eagle:library:334" deviceset="C-EU" device="C1206" package3d_urn="urn:adsk.eagle:package:23618/2" value="100nF"/>
 </parts>
 <sheets>
 <sheet>
@@ -27663,8 +27664,8 @@ DAC and ICSP</text>
 <instance part="SUPPLY9" gate="+5V" x="86.36" y="40.64" smashed="yes">
 <attribute name="VALUE" x="84.455" y="43.815" size="1.778" layer="96"/>
 </instance>
-<instance part="SUPPLY8" gate="G$1" x="71.12" y="-12.7" smashed="yes">
-<attribute name="VALUE" x="68.453" y="-15.875" size="1.778" layer="96"/>
+<instance part="SUPPLY8" gate="G$1" x="71.12" y="-25.4" smashed="yes">
+<attribute name="VALUE" x="68.453" y="-28.575" size="1.778" layer="96"/>
 </instance>
 <instance part="IC1" gate="G$1" x="81.28" y="2.54" smashed="yes" rot="R90">
 <attribute name="NAME" x="73.66" y="31.75" size="1.778" layer="95" rot="R90" align="center-left"/>
@@ -27695,6 +27696,10 @@ DAC and ICSP</text>
 <instance part="D2" gate="G$1" x="43.18" y="7.62" smashed="yes" rot="R180">
 <attribute name="NAME" x="40.64" y="7.1374" size="1.778" layer="95" rot="R180"/>
 <attribute name="VALUE" x="40.64" y="9.9314" size="1.778" layer="96" rot="R180"/>
+</instance>
+<instance part="C26" gate="G$1" x="78.74" y="-17.78" smashed="yes" rot="R270">
+<attribute name="NAME" x="79.121" y="-19.304" size="1.778" layer="95" rot="R270"/>
+<attribute name="VALUE" x="74.041" y="-19.304" size="1.778" layer="96" rot="R270"/>
 </instance>
 </instances>
 <busses>
@@ -27754,13 +27759,17 @@ DAC and ICSP</text>
 <pinref part="SUPPLY8" gate="G$1" pin="AGND"/>
 <wire x1="71.12" y1="2.54" x2="71.12" y2="-7.62" width="0.1524" layer="91"/>
 <pinref part="IC1" gate="G$1" pin="GROUND"/>
-<wire x1="71.12" y1="-7.62" x2="71.12" y2="-10.16" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="-7.62" x2="71.12" y2="-17.78" width="0.1524" layer="91"/>
+<wire x1="71.12" y1="-17.78" x2="71.12" y2="-22.86" width="0.1524" layer="91"/>
 <wire x1="81.28" y1="2.54" x2="71.12" y2="2.54" width="0.1524" layer="91"/>
 <junction x="71.12" y="2.54"/>
 <label x="12.7" y="22.86" size="1.778" layer="95"/>
 <pinref part="C8" gate="G$1" pin="-"/>
 <wire x1="71.12" y1="-7.62" x2="73.66" y2="-7.62" width="0.1524" layer="91"/>
 <junction x="71.12" y="-7.62"/>
+<pinref part="C26" gate="G$1" pin="2"/>
+<wire x1="73.66" y1="-17.78" x2="71.12" y2="-17.78" width="0.1524" layer="91"/>
+<junction x="71.12" y="-17.78"/>
 </segment>
 <segment>
 <pinref part="SUPPLY68" gate="G$1" pin="AGND"/>
@@ -27799,6 +27808,10 @@ DAC and ICSP</text>
 <junction x="86.36" y="38.1"/>
 <pinref part="C8" gate="G$1" pin="+"/>
 <wire x1="81.28" y1="-7.62" x2="83.82" y2="-7.62" width="0.1524" layer="91"/>
+<pinref part="C26" gate="G$1" pin="1"/>
+<wire x1="81.28" y1="-17.78" x2="83.82" y2="-17.78" width="0.1524" layer="91"/>
+<wire x1="83.82" y1="-17.78" x2="83.82" y2="-7.62" width="0.1524" layer="91"/>
+<junction x="83.82" y="-7.62"/>
 </segment>
 </net>
 <net name="-12V" class="0">
