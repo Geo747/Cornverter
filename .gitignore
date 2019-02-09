@@ -4,3 +4,5 @@
 *.raw
 *.net
 *.log
+Firmware/build/
+Firmware/bin/
