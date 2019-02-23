@@ -30,7 +30,6 @@ static inline byte channelInRange(byte channel) {
 }
 
 void polyToMonoNoteOn(byte note, byte velocity, byte channel) {
-  if (!channelInRange(channel)) { return; }
 
   if ((data[channel][note][2] != 128) & (note != saveNote[channel])) { //If it doesnt have a velocity of 128 (i.e. it is already in the stack, and it isnt the last place on the stack)
 		byte prevNote = data[channel][note][0]; //Patch the references for the two notes either side of its original place
@@ -48,7 +47,6 @@ void polyToMonoNoteOn(byte note, byte velocity, byte channel) {
 }
 
 void polyToMonoNoteOff(byte note, byte channel) {
-  if (!channelInRange(channel)) { return; }
 
   data[channel][note][2] = 128; //Velocity off for note
 	if (note == saveNote[channel]) { //If it is last note on stack move pointer back one.
@@ -71,20 +69,14 @@ void polyToMonoAllNotesOff(byte channel) {
 }
 
 byte polyToMonoCurrentNote(byte channel) {
-  if (!channelInRange(channel)) { return 128; }
-
   return saveNote[channel];
 }
 
 byte polyToMonoCurrentVelocity(byte channel) {
-  if (!channelInRange(channel)) { return 128; }
-
   return data[channel][saveNote[channel]][2];
 }
 
-byte polyToMonoIsNoteOn(byte channel) {
-  if (!channelInRange(channel)) { return 128; }
-  
+byte polyToMonoIsNoteOn(byte channel) {  
   if (saveNote[channel] == 128) { return 0; }
   return 1;
 }

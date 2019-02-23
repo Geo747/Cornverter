@@ -8,19 +8,27 @@
 byte clockCounter = 0;
 byte resetState = 0;
 
+static inline byte channelInRange(byte channel) {
+  if (channel < MIDI_CHANNELS) { return 1; }
+  return 0;
+}
+
 void noteOnHandler(MIDIMessage message) {
+  if (!channelInRange(message.channel)) { return; };
   polyToMonoNoteOn(message.data1, message.data2, message.channel);
 
   digitalOutputsUpdateGate(1, message.channel);
 }
 
 void noteOffHandler(MIDIMessage message) {
+  if (!channelInRange(message.channel)) { return; };
   polyToMonoNoteOff(message.data1, message.channel);
 
   digitalOutputsUpdateGate(polyToMonoIsNoteOn(message.channel), message.channel);
 }
 
 void controlChangeHandler(MIDIMessage message) {
+  if (!channelInRange(message.channel)) { return; };
   switch(message.data1) {
     case 80:
       digitalOutputsUpdateDigi((message.data2 >= 64), message.channel, 0);
@@ -56,6 +64,7 @@ void controlChangeHandler(MIDIMessage message) {
 }
 
 void pitchBendHandler(MIDIMessage message) {
+  if (!channelInRange(message.channel)) { return; };
   
 }
 
