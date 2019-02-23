@@ -12,5 +12,7 @@
     "digitaloutputs.h": "c",
     "pwmoutputs.h": "c",
     "clockcontroller.h": "c"
-  }
+  },
+  "editor.tabSize": 2,
+  "editor.detectIndentation": false
 }
