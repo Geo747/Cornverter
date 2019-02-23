@@ -33,6 +33,10 @@ typedef struct {
   ioPinStruct clockOut;
   ioPinStruct resetOut;
 
+  ioPinStruct MCP4822CS;
+  ioPinStruct MCP4822MOSI;
+  ioPinStruct MCP4822SCK;
+
 } ioPinsStruct;
 
 //Struct with pin data in, defined in .c

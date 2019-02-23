@@ -59,6 +59,19 @@ const ioPinsStruct ioPins = {
   .resetOut.portLetter  = 'D',
   .resetOut.bit         =  3 ,
   .resetOut.direction   =  1 ,
+
+  .MCP4822CS.portLetter = 'D',
+  .MCP4822CS.bit        =  4 ,
+  .MCP4822CS.direction  =  1 ,
+
+  .MCP4822MOSI.portLetter= 'B',
+  .MCP4822MOSI.bit      =  3 ,
+  .MCP4822MOSI.direction=  1 ,
+
+  .MCP4822SCK.portLetter= 'B',
+  .MCP4822SCK.bit       =  5 ,
+  .MCP4822SCK.direction =  1 ,
+  
 };
 
 volatile uint8_t* ioPinsGetPORT(ioPinStruct ioPin) {
@@ -113,4 +126,7 @@ void ioPinsSetup(void) {
   initPin(ioPins.ana2ch2);
   initPin(ioPins.clockOut);
   initPin(ioPins.resetOut);
+  initPin(ioPins.MCP4822CS);
+  initPin(ioPins.MCP4822MOSI);
+  initPin(ioPins.MCP4822SCK);
 }
