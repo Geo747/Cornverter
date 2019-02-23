@@ -7,9 +7,9 @@
 
 # Setup Info
 MCU = atmega328p
-AVRDUDE_PROGRAMMER = arduino
-AVRDUDE_PORT = COM4
-AVRDUDE_BAUD_RATE = 57600
+AVRDUDE_PROGRAMMER = avrispmkII
+AVRDUDE_PORT = usb
+AVRDUDE_BAUD_RATE = 115200
 
 # Target file name (without extension).
 TARGET_FN = MIDI_to_CV
