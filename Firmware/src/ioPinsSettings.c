@@ -64,7 +64,7 @@ const ioPinsStruct ioPins = {
   .MCP4822CS.bit        =  4 ,
   .MCP4822CS.direction  =  1 ,
 
-  .MCP4822MOSI.portLetter= 'B',
+  .MCP4822MOSI.portLetter='B',
   .MCP4822MOSI.bit      =  3 ,
   .MCP4822MOSI.direction=  1 ,
 
