@@ -7,7 +7,9 @@
 #include <avr/interrupt.h>
 
 void MCP4822Setup(void);
-void MCP4822Write(uint16_t value, uint8_t channel); //Set the corresponding one of the 2 outputs for that channel with that value
-void MCP4822SetAccuracy(uint8_t accuracy); //0 = 0 - 2.048V, 1 = 0 - 4.096V
+
+//Set the corresponding one of the 2 outputs for that channel with that value
+//Accuracy values: 0 = 0 - 4V, 1 = 0 - 8V
+void MCP4822Write(uint16_t value, uint8_t channel, uint8_t accuracy);
 
 #endif
