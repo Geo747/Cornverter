@@ -15,3 +15,6 @@ Digital MIDI CCs (0 to 63 Off, 64 - 127 On):
 Analog MIDI CCs:
 -Ana 1 - MIDI CC 1 (Modulation Wheel)
 -Ana 2 - MIDI CC 16
+
+Config CCs:
+-Voct Accuracy - MIDI CC 17 (Below 64 sets 0 - 4V, above 64 sets 0 - 8V)

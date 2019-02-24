@@ -4,6 +4,7 @@
 #include "PolyToMono.h"
 #include "DigitalOutputs.h"
 #include "PWMOutputs.h"
+#include "Voct.h"
 
 byte clockCounter = 0;
 byte resetState = 0;
@@ -17,6 +18,7 @@ void noteOnHandler(MIDIMessage message) {
   if (!channelInRange(message.channel)) { return; };
   polyToMonoNoteOn(message.data1, message.data2, message.channel);
 
+  VoctWriteNote(message.data1, message.channel);
   digitalOutputsUpdateGate(1, message.channel);
 }
 
@@ -24,7 +26,11 @@ void noteOffHandler(MIDIMessage message) {
   if (!channelInRange(message.channel)) { return; };
   polyToMonoNoteOff(message.data1, message.channel);
 
-  digitalOutputsUpdateGate(polyToMonoIsNoteOn(message.channel), message.channel);
+  uint8_t noteOn = polyToMonoIsNoteOn(message.channel);
+  if (noteOn) {
+    VoctWriteNote(polyToMonoCurrentNote(message.channel), message.channel);
+  }
+  digitalOutputsUpdateGate(noteOn, message.channel);
 }
 
 void controlChangeHandler(MIDIMessage message) {
@@ -50,6 +56,10 @@ void controlChangeHandler(MIDIMessage message) {
       pwmWrite(message.data2, message.channel, 1);
       break;
 
+    case 17:
+      VoctSetAccuracy((message.data2 >= 64), message.channel);
+      break;
+
     case 120:
     case 123:
       //Midi all notes off messages
@@ -65,7 +75,7 @@ void controlChangeHandler(MIDIMessage message) {
 
 void pitchBendHandler(MIDIMessage message) {
   if (!channelInRange(message.channel)) { return; };
-  
+  VoctWritePitchBend(((message.data1 << 7) | message.data2), message.channel);
 }
 
 void clockHandler(MIDIMessage message) {
@@ -109,6 +119,7 @@ void setup(void) {
   polyToMonoSetup();
   setMIDICallbacks();
   pwmSetup();
+  VoctSetup();
 }
 
 int main(void) {
