@@ -4,14 +4,16 @@
 byte mRxBuffer[RX_BUFFER_SIZE];
 byte mRxBufferHead = 0;
 byte mRxBufferTail = 0;
+byte mDataInBuffer = 0;
 
 //Reads from ring buffer
 int serialReadByte(void) {
-  if (mRxBufferHead == mRxBufferTail) {
+  if (!mDataInBuffer) {
     return -1;
   } else {
     byte data = mRxBuffer[mRxBufferTail];
     mRxBufferTail = (byte)((mRxBufferTail + 1) % RX_BUFFER_SIZE);
+    if (mRxBufferHead == mRxBufferTail) { mDataInBuffer = 0; };
     return data;
   }
 }
@@ -48,12 +50,12 @@ void serialSetup(void) {
 static void rxComplete(void) {
   //Standard cyclic buffer
   byte data = UDR0;
-  byte nextIndex = (byte)(mRxBufferHead + 1) % RX_BUFFER_SIZE;
 
   //Dont let the head (i.e. position of latest data) catch the tail (i.e pos of earliest unread data)
-  if (nextIndex != mRxBufferTail) {
+  if ((mRxBufferHead != mRxBufferTail) || !mDataInBuffer) {
     mRxBuffer[mRxBufferHead] = data;
-    mRxBufferHead = nextIndex;
+    mRxBufferHead = (mRxBufferHead + 1) % RX_BUFFER_SIZE;
+    mDataInBuffer = 1;
   }
 }
 
