@@ -12,7 +12,8 @@
     "digitaloutputs.h": "c",
     "pwmoutputs.h": "c",
     "clockcontroller.h": "c",
-    "mcp4822.h": "c"
+    "mcp4822.h": "c",
+    "voct.h": "c"
   },
   "editor.tabSize": 2,
   "editor.detectIndentation": false
