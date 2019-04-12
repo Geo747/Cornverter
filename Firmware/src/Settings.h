@@ -18,7 +18,7 @@
   //CPU Freq
   #define F_CPU 16000000
   //MIDI Baudrate
-  #define BAUD 38400
+  #define BAUD 31250
 
   //Treat note on messages with 0 velocity as note off messages (advised)
   #define NULL_VELOCITY_AS_NOTE_OFF 1
