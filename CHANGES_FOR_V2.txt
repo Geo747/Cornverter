@@ -1,0 +1,5 @@
+Fix MIDI jack incorrect pinout
+Change resistors on 5V outputs from 330 to 47K
+Change resistors on 8V outputs to 100K
+
+Add buffer before LEDs on pitch output so their brightness isnt affected by impedance of destination
