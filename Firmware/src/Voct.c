@@ -17,8 +17,8 @@ void VoctSetup(void) {
 }
 
 void writeToDac(uint8_t channel) {
-  int32_t outputValue = ((int32_t)4095 * (int32_t)(mCurrentNote[channel] - lowestNote[mAccuracy[channel]]));
-  outputValue += ((int32_t)4095 * (mCurrentPitchBend[channel] - (int32_t)16384) * mPitchBendRange[channel]) / (int32_t)16384;
+  int32_t outputValue = ((int32_t)4095 * (int32_t)(mCurrentNote[channel]));
+  outputValue += ((int32_t)4095 * (mCurrentPitchBend[channel] - (int32_t)8192) * mPitchBendRange[channel]) / (int32_t)16384;
 
   uint16_t modValue = outputValue % noteRange[mAccuracy[channel]];
 
@@ -38,7 +38,7 @@ void VoctWriteNote(uint8_t note, uint8_t channel) {
   if ((note < lowestNote[mAccuracy[channel]])
   || (note > highestNote[mAccuracy[channel]])) { return; }
 
-  mCurrentNote[channel] = note;
+  mCurrentNote[channel] = note - lowestNote[mAccuracy[channel]];
 
   writeToDac(channel);
 }
