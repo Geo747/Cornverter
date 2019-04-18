@@ -43,7 +43,6 @@ void polyToMonoNoteOn(byte note, byte velocity, byte channel) {
 	data[channel][saveNote[channel]][1] = note; //The next note for the previous note is the new note
 	data[channel][note][0] = saveNote[channel]; //The last note for the new note is the previous note
 	saveNote[channel] = note;
-	return;
 }
 
 void polyToMonoNoteOff(byte note, byte channel) {
@@ -58,7 +57,6 @@ void polyToMonoNoteOff(byte note, byte channel) {
 		data[channel][prevNote][1] = nextNote; //That is being removed
 		data[channel][nextNote][0] = prevNote;
 	}
-	return;
 }
 
 void polyToMonoAllNotesOff(byte channel) {
