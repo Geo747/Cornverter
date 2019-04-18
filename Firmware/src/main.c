@@ -75,7 +75,7 @@ void controlChangeHandler(MIDIMessage message) {
 
 void pitchBendHandler(MIDIMessage message) {
   if (!channelInRange(message.channel)) { return; };
-  VoctWritePitchBend(((message.data1 << 7) | message.data2), message.channel);
+  VoctWritePitchBend(message.data1, message.data2, message.channel);
 }
 
 void clockHandler(MIDIMessage message) {
