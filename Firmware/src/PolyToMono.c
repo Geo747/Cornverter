@@ -31,7 +31,7 @@ static inline byte channelInRange(byte channel) {
 
 void polyToMonoNoteOn(byte note, byte velocity, byte channel) {
 
-  if ((data[channel][note][2] != 128) & (note != saveNote[channel])) { //If it doesnt have a velocity of 128 (i.e. it is already in the stack, and it isnt the last place on the stack)
+  if ((data[channel][note][2] != 128) && (note != saveNote[channel])) { //If it doesnt have a velocity of 128 (i.e. it is already in the stack, and it isnt the last place on the stack)
 		byte prevNote = data[channel][note][0]; //Patch the references for the two notes either side of its original place
 		byte nextNote = data[channel][note][1]; //as it is now being moved to the front of the stack
 		data[channel][prevNote][1] = nextNote;
