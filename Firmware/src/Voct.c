@@ -3,7 +3,7 @@
 
 static uint16_t mCurrentNote[] = {0, 0};
 static uint16_t mCurrentPitchBend[] = {16384, 16384};
-static uint8_t mPitchBendRange[] = {24, 24}; //The total range including up and down
+static uint8_t mPitchBendRange[] = {2, 2};
 static uint8_t mAccuracy[] = {1, 1};
 
 static const uint8_t noteRange[] = {48, 96};
@@ -18,7 +18,7 @@ void VoctSetup(void) {
 
 void writeToDac(uint8_t channel) {
   int32_t outputValue = ((int32_t)4095 * (int32_t)(mCurrentNote[channel]));
-  outputValue += ((int32_t)4095 * (mCurrentPitchBend[channel] - (int32_t)8192) * mPitchBendRange[channel]) / (int32_t)16384;
+  outputValue += ((int32_t)4095 * (mCurrentPitchBend[channel] - (int32_t)8192) * mPitchBendRange[channel]) / (int32_t)8192;
 
   uint16_t modValue = outputValue % noteRange[mAccuracy[channel]];
 
