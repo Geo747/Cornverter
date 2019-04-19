@@ -58,5 +58,5 @@ void VoctSetAccuracy(uint8_t accuracy, uint8_t channel) {
 }
 
 void VoctSetPitchBendRange(uint8_t range, uint8_t channel){
-
+  mPitchBendRange[channel] = range;
 }

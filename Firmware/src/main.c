@@ -9,7 +9,9 @@
 uint8_t clockCounter = 0;
 uint8_t resetState = 0;
 
-
+uint8_t RPNMSB[] = {128, 128};
+uint8_t RPNLSB[] = {128, 128};
+uint8_t RPNNRPNMode[] = {2, 2}; //determines whether RPN or NRPN was set last
 
 static inline uint8_t channelInRange(uint8_t channel) {
   if (channel < MIDI_CHANNELS) { return 1; }
@@ -35,9 +37,27 @@ void noteOffHandler(MIDIMessage message) {
   }
 }
 
+void RPNNRPNHandler(uint8_t channel, uint8_t value) {
+  if (RPNNRPNMode[channel] == 0) { //If RPN not NRPN
+    uint16_t address = (RPNMSB[channel] << 7) | RPNLSB[channel];
+    switch (address) {
+    case 0: //Pitchbend range RPN
+      VoctSetPitchBendRange(value, channel);
+      break;
+    
+    default:
+      break;
+    }
+  }
+}
+
 void controlChangeHandler(MIDIMessage message) {
   if (!channelInRange(message.channel)) { return; };
   switch(message.data1) {
+    case 6: //RPN and NRPN Data entry (technically only MSB but currently nothing is implemented that needs LSB)
+      RPNNRPNHandler(message.channel, message.data2);
+      break;
+
     case 80:
       digitalOutputsUpdateDigi((message.data2 >= 64), message.channel, 0);
       break;
@@ -62,6 +82,21 @@ void controlChangeHandler(MIDIMessage message) {
       VoctSetAccuracy((message.data2 >= 64), message.channel);
       break;
 
+    case 98: //NRPN LSB and MSB(not currently used)
+    case 99:
+      RPNNRPNMode[message.channel] = 1;
+      break;
+
+    case 100: //RPN LSB
+      RPNLSB[message.channel] = message.data2;
+      RPNNRPNMode[message.channel] = 0;
+      break;
+    
+    case 101: //RPN MSB
+      RPNMSB[message.channel] = message.data2;
+      RPNNRPNMode[message.channel] = 0;
+      break;
+
     case 120:
     case 123:
       //Midi all notes off messages
@@ -71,7 +106,7 @@ void controlChangeHandler(MIDIMessage message) {
       break;
 
     default:
-      return;
+      break;
   }
 }
 
