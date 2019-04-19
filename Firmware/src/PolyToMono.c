@@ -50,7 +50,12 @@ void polyToMonoNoteOff(uint8_t note, uint8_t channel) {
   data[channel][note][2] = 128; //Velocity off for note
 	if (note == saveNote[channel]) { //If it is last note on stack move pointer back one.
 		saveNote[channel] = data[channel][note][0]; //Update savechannel
-    data[channel][note][0] = 128; //Set previous note to 0
+
+    //data[channel][note][0] = 128; //Set previous note to 0
+    /*This line above was to fix a bug which I can no longer reproduce for unknown reason
+    The bug was originally created by a sequency of
+    F2on, E2on, F2off, E2off, E2on, F2on, F2off, E2off
+    This caused the last note to not turn off properly and the data array to be corrupted*/
 	}
 	else {
 		uint8_t prevNote = data[channel][note][0]; //Patch references for preceding and following notes
