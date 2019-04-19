@@ -1,7 +1,7 @@
 //Copyright 2018 George Rennie
 #include "MCP4822.h"
 
-static void sendByte(uint8_t byteToSend) {
+static void sendByte(uint8_t byteToSend) { //TODO: Change this to use a ring buffer and interrupts
   SPDR = byteToSend;
   while (!(SPSR & (1 << SPIF)));
 }
