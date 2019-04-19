@@ -10,13 +10,13 @@ If more than one note on message on the same note is sent before receiving a not
 //Data array to keep all the addresses and stuff with one dimension used to determine channel
 //Each index in the second dimension represents one midi note with the last index being a no note indicator
 //The third dimension contains preceding note to that 2nd dimension index, then following note and then that notes velocity
-static byte data[MIDI_CHANNELS][129][3];
-static byte saveNote[MIDI_CHANNELS];
+static uint8_t data[MIDI_CHANNELS][129][3];
+static uint8_t saveNote[MIDI_CHANNELS];
 
 void polyToMonoSetup(void) {
-  for (byte i = 0; i < MIDI_CHANNELS; i++) {
-    for (byte j = 0; j < 129; j++) {
-      for (byte k = 0; k < 3; k++) {
+  for (uint8_t i = 0; i < MIDI_CHANNELS; i++) {
+    for (uint8_t j = 0; j < 129; j++) {
+      for (uint8_t k = 0; k < 3; k++) {
         data[i][j][k] = 128; //Init all places in the data array to 128 (i.e. the no note value)
       }
     }
@@ -24,16 +24,16 @@ void polyToMonoSetup(void) {
   }
 }
 
-static inline byte channelInRange(byte channel) {
+static inline uint8_t channelInRange(uint8_t channel) {
   if (channel < MIDI_CHANNELS) { return 1; }
   return 0;
 }
 
-void polyToMonoNoteOn(byte note, byte velocity, byte channel) {
+void polyToMonoNoteOn(uint8_t note, uint8_t velocity, uint8_t channel) {
 
   if ((data[channel][note][2] != 128) && (note != saveNote[channel])) { //If it doesnt have a velocity of 128 (i.e. it is already in the stack, and it isnt the last place on the stack)
-		byte prevNote = data[channel][note][0]; //Patch the references for the two notes either side of its original place
-		byte nextNote = data[channel][note][1]; //as it is now being moved to the front of the stack
+		uint8_t prevNote = data[channel][note][0]; //Patch the references for the two notes either side of its original place
+		uint8_t nextNote = data[channel][note][1]; //as it is now being moved to the front of the stack
 		data[channel][prevNote][1] = nextNote;
 		data[channel][nextNote][0] = prevNote;
 	}
@@ -45,36 +45,36 @@ void polyToMonoNoteOn(byte note, byte velocity, byte channel) {
 	saveNote[channel] = note;
 }
 
-void polyToMonoNoteOff(byte note, byte channel) {
+void polyToMonoNoteOff(uint8_t note, uint8_t channel) {
 
   data[channel][note][2] = 128; //Velocity off for note
 	if (note == saveNote[channel]) { //If it is last note on stack move pointer back one.
 		saveNote[channel] = data[channel][note][0]; //As the velocity has been set to 128 (off) the values left in its references are irrelevant
 	}
 	else {
-		byte prevNote = data[channel][note][0]; //Patch references for preceding and following notes
-		byte nextNote = data[channel][note][1]; //So they reference each other and not the note that
+		uint8_t prevNote = data[channel][note][0]; //Patch references for preceding and following notes
+		uint8_t nextNote = data[channel][note][1]; //So they reference each other and not the note that
 		data[channel][prevNote][1] = nextNote; //That is being removed
 		data[channel][nextNote][0] = prevNote;
 	}
 }
 
-void polyToMonoAllNotesOff(byte channel) {
+void polyToMonoAllNotesOff(uint8_t channel) {
   while (saveNote[channel] != 128) {
     data[channel][saveNote[channel]][2] = 128; //Set last note on stack velocity  to 0
 		saveNote[channel] = data[channel][saveNote[channel]][0]; //As the velocity has been set to 128 (off) the values left in its references are irrelevant    
   }
 }
 
-byte polyToMonoCurrentNote(byte channel) {
+uint8_t polyToMonoCurrentNote(uint8_t channel) {
   return saveNote[channel];
 }
 
-byte polyToMonoCurrentVelocity(byte channel) {
+uint8_t polyToMonoCurrentVelocity(uint8_t channel) {
   return data[channel][saveNote[channel]][2];
 }
 
-byte polyToMonoIsNoteOn(byte channel) {  
+uint8_t polyToMonoIsNoteOn(uint8_t channel) {  
   if (saveNote[channel] == 128) { return 0; }
   return 1;
 }
