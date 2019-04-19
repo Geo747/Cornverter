@@ -49,7 +49,8 @@ void polyToMonoNoteOff(uint8_t note, uint8_t channel) {
 
   data[channel][note][2] = 128; //Velocity off for note
 	if (note == saveNote[channel]) { //If it is last note on stack move pointer back one.
-		saveNote[channel] = data[channel][note][0]; //As the velocity has been set to 128 (off) the values left in its references are irrelevant
+		saveNote[channel] = data[channel][note][0]; //Update savechannel
+    data[channel][note][0] = 128; //Set previous note to 0
 	}
 	else {
 		uint8_t prevNote = data[channel][note][0]; //Patch references for preceding and following notes
@@ -59,7 +60,9 @@ void polyToMonoNoteOff(uint8_t note, uint8_t channel) {
 	}
 }
 
-void polyToMonoAllNotesOff(uint8_t channel) {
+void polyToMonoAllNotesOff(uint8_t channel) { //Consider changing this to more time 
+  //consuming iterated fill that sets everything to 128? meaning there cant be bugs 
+  //where while loop doesnt escape
   while (saveNote[channel] != 128) {
     data[channel][saveNote[channel]][2] = 128; //Set last note on stack velocity  to 0
 		saveNote[channel] = data[channel][saveNote[channel]][0]; //As the velocity has been set to 128 (off) the values left in its references are irrelevant    
