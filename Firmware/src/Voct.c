@@ -6,10 +6,6 @@ static uint16_t mCurrentPitchBend[] = {16384, 16384};
 static uint8_t mPitchBendRange[] = {2, 2};
 static uint8_t mAccuracy[] = {1, 1};
 
-static const uint8_t noteRange[] = {48, 96};
-static const uint8_t lowestNote[] = {36, 12};
-static const uint8_t highestNote[] = {84, 108};
-
 void VoctSetup(void) {
   MCP4822Setup();
   MCP4822Write(0, 0, mAccuracy[0]);
@@ -20,11 +16,11 @@ void writeToDac(uint8_t channel) {
   int32_t outputValue = ((int32_t)4095 * (int32_t)(mCurrentNote[channel]));
   outputValue += ((int32_t)4095 * (mCurrentPitchBend[channel] - (int32_t)8192) * mPitchBendRange[channel]) / (int32_t)8192;
 
-  uint16_t modValue = outputValue % noteRange[mAccuracy[channel]];
+  uint16_t modValue = outputValue % NOTE_RANGE[mAccuracy[channel]];
 
-  outputValue /= (int32_t)noteRange[mAccuracy[channel]];
+  outputValue /= (int32_t)NOTE_RANGE[mAccuracy[channel]];
 
-  if (modValue >= noteRange[mAccuracy[channel]] / 2) { outputValue += 1; };
+  if (modValue >= NOTE_RANGE[mAccuracy[channel]] / 2) { outputValue += 1; };
 
   if   (outputValue > 4095) { outputValue = 4095; }
   else if (outputValue < 0) { outputValue = 0; }
@@ -35,10 +31,10 @@ void writeToDac(uint8_t channel) {
 void VoctWriteNote(uint8_t note, uint8_t channel) {
   if (channel > 1) { return; }
 
-  if ((note < lowestNote[mAccuracy[channel]])
-  || (note > highestNote[mAccuracy[channel]])) { return; }
+  if ((note < LOWEST_NOTE[mAccuracy[channel]])
+  || (note > HIGHEST_NOTE[mAccuracy[channel]])) { return; }
 
-  mCurrentNote[channel] = note - lowestNote[mAccuracy[channel]];
+  mCurrentNote[channel] = note - LOWEST_NOTE[mAccuracy[channel]];
 
   writeToDac(channel);
 }

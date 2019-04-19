@@ -27,4 +27,8 @@
 
   //Number of channels (starting from channel 0) that polytomono and main use
   #define MIDI_CHANNELS 2
+
+  static const uint8_t NOTE_RANGE[] = {48, 96}; //Define notes for different accuracies
+  static const uint8_t LOWEST_NOTE[] = {24, 24};
+  static const uint8_t HIGHEST_NOTE[] = {72, 120};
 #endif
