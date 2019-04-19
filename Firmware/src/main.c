@@ -26,7 +26,7 @@ void noteOnHandler(MIDIMessage message) {
 
   VoctWriteNote(message.data1, message.channel);
   if (Ana2Mode[message.channel] == 1) { pwmWrite(message.data2, message.channel, 1); }
-  digitalOutputsUpdateGate(1, message.channel);
+  digitalOutputsUpdateGate(polyToMonoIsNoteOn(message.channel), message.channel);
 }
 
 void noteOffHandler(MIDIMessage message) {

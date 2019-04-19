@@ -13,6 +13,8 @@ If more than one note on message on the same note is sent before receiving a not
 static uint8_t data[MIDI_CHANNELS][129][3];
 static uint8_t saveNote[MIDI_CHANNELS];
 
+static uint8_t mAccuracy[] = {1, 1};
+
 void polyToMonoSetup(void) {
   for (uint8_t i = 0; i < MIDI_CHANNELS; i++) {
     for (uint8_t j = 0; j < 129; j++) {
@@ -24,12 +26,19 @@ void polyToMonoSetup(void) {
   }
 }
 
-static inline uint8_t channelInRange(uint8_t channel) {
-  if (channel < MIDI_CHANNELS) { return 1; }
-  return 0;
+void polyToMonoSetAccuracy(uint8_t accuracy, uint8_t channel) {
+  if (channel < MIDI_CHANNELS) {
+    mAccuracy[channel] = accuracy;
+  }
+}
+
+static inline uint8_t noteInRange(uint8_t note, uint8_t channel) {
+  if (note >= LOWEST_NOTE[mAccuracy[channel]] && note <= HIGHEST_NOTE[mAccuracy[channel]]) { return 1; }
+  else { return 0; }
 }
 
 void polyToMonoNoteOn(uint8_t note, uint8_t velocity, uint8_t channel) {
+  if (!noteInRange(note, channel)) { return; }
 
   if ((data[channel][note][2] != 128) && (note != saveNote[channel])) { //If it doesnt have a velocity of 128 (i.e. it is already in the stack, and it isnt the last place on the stack)
 		uint8_t prevNote = data[channel][note][0]; //Patch the references for the two notes either side of its original place
@@ -46,6 +55,7 @@ void polyToMonoNoteOn(uint8_t note, uint8_t velocity, uint8_t channel) {
 }
 
 void polyToMonoNoteOff(uint8_t note, uint8_t channel) {
+  if (!noteInRange(note, channel)) { return; }
 
   data[channel][note][2] = 128; //Velocity off for note
 	if (note == saveNote[channel]) { //If it is last note on stack move pointer back one.
