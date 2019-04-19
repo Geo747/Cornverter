@@ -1,28 +1,28 @@
 //Copyright 2018 George Rennie
 #include "SerialRead.h"
 
-byte mRxBuffer[RX_BUFFER_SIZE];
-byte mRxBufferHead = 0;
-byte mRxBufferTail = 0;
-byte mDataInBuffer = 0;
+uint8_t mRxBuffer[RX_BUFFER_SIZE];
+uint8_t mRxBufferHead = 0;
+uint8_t mRxBufferTail = 0;
+uint8_t mDataInBuffer = 0;
 
 //Reads from ring buffer
 int serialReadByte(void) {
   if (!mDataInBuffer) {
     return -1;
   } else {
-    byte data = mRxBuffer[mRxBufferTail];
-    mRxBufferTail = (byte)((mRxBufferTail + 1) % RX_BUFFER_SIZE);
+    uint8_t data = mRxBuffer[mRxBufferTail];
+    mRxBufferTail = (uint8_t)((mRxBufferTail + 1) % RX_BUFFER_SIZE);
     if (mRxBufferHead == mRxBufferTail) { mDataInBuffer = 0; };
     return data;
   }
 }
 
-byte serialAvailable(void) {
+uint8_t serialAvailable(void) {
   //returns 0 only when the buffer pointers are the same value
   //i.e. whenever there is data in the buffer the pointers are at dif places
   //Therefore it returns the number of bytes in buffer
-  return (byte)(RX_BUFFER_SIZE + mRxBufferHead - mRxBufferTail) % RX_BUFFER_SIZE;
+  return (uint8_t)(RX_BUFFER_SIZE + mRxBufferHead - mRxBufferTail) % RX_BUFFER_SIZE;
 }
 
 void serialSetup(void) {
@@ -49,7 +49,7 @@ void serialSetup(void) {
 //Called on new data in rx buffer interrupt
 static void rxComplete(void) {
   //Standard cyclic buffer
-  byte data = UDR0;
+  uint8_t data = UDR0;
 
   //Dont let the head (i.e. position of latest data) catch the tail (i.e pos of earliest unread data)
   if ((mRxBufferHead != mRxBufferTail) || !mDataInBuffer) {

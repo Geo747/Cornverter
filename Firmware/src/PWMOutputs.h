@@ -5,6 +5,6 @@
 #include "Settings.h"
 
 void pwmSetup(void);
-void pwmWrite(byte value, byte channel, byte output); //Set the corresponding one of the 2 outputs for that channel with that byte
+void pwmWrite(uint8_t value, uint8_t channel, uint8_t output); //Set the corresponding one of the 2 outputs for that channel with that byte
 
 #endif

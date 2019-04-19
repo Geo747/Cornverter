@@ -1,7 +1,7 @@
 //Copyright 2018 George Rennie
 #include "DigitalOutputs.h"
 
-void digitalOutputsUpdateGate(byte state, byte channel) { //Logic to update the output state of the corresponding pin for that gate
+void digitalOutputsUpdateGate(uint8_t state, uint8_t channel) { //Logic to update the output state of the corresponding pin for that gate
   ioPinStruct ioPin;
   
   switch (channel) {
@@ -27,7 +27,7 @@ void digitalOutputsUpdateGate(byte state, byte channel) { //Logic to update the 
   }
 }
 
-void digitalOutputsUpdateDigi(byte state, byte channel, byte output) { //Logic to update the output state of the corresponding pin for that digi out
+void digitalOutputsUpdateDigi(uint8_t state, uint8_t channel, uint8_t output) { //Logic to update the output state of the corresponding pin for that digi out
   ioPinStruct ioPin;
 
   switch (channel) {
@@ -85,7 +85,7 @@ void digitalOutputsUpdateDigi(byte state, byte channel, byte output) { //Logic t
   }
 }
 
-void digitalOutputsUpdateClock(byte state) {
+void digitalOutputsUpdateClock(uint8_t state) {
   ioPinStruct ioPin = ioPins.clockOut;
   switch (state) {
     case 0:
@@ -99,7 +99,7 @@ void digitalOutputsUpdateClock(byte state) {
   }
 }
 
-void digitalOutputsUpdateReset(byte state) {
+void digitalOutputsUpdateReset(uint8_t state) {
   ioPinStruct ioPin = ioPins.resetOut;
   switch (state) {
     case 0:

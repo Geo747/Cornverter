@@ -2,10 +2,6 @@
 #ifndef MIDIDEFS_H
 #define MIDIDEFS_H
 
-typedef byte StatusByte;
-typedef byte DataByte;
-typedef byte Channel;
-
 typedef enum
 {
   //Only uncommented message types are implemented at the moment, and only in receive.

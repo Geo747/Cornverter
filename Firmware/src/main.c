@@ -6,10 +6,12 @@
 #include "PWMOutputs.h"
 #include "Voct.h"
 
-byte clockCounter = 0;
-byte resetState = 0;
+uint8_t clockCounter = 0;
+uint8_t resetState = 0;
 
-static inline byte channelInRange(byte channel) {
+
+
+static inline uint8_t channelInRange(uint8_t channel) {
   if (channel < MIDI_CHANNELS) { return 1; }
   return 0;
 }

@@ -4,8 +4,8 @@
 
 #include "Settings.h"
 
-void digitalOutputsUpdateGate(byte state, byte channel);
-void digitalOutputsUpdateDigi(byte state, byte channel, byte output);
-void digitalOutputsUpdateClock(byte state);
-void digitalOutputsUpdateReset(byte state);
+void digitalOutputsUpdateGate(uint8_t state, uint8_t channel);
+void digitalOutputsUpdateDigi(uint8_t state, uint8_t channel, uint8_t output);
+void digitalOutputsUpdateClock(uint8_t state);
+void digitalOutputsUpdateReset(uint8_t state);
 #endif

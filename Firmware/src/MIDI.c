@@ -29,8 +29,8 @@ struct callbackStruct callbacks = {
 //Data for the library, not declared in .h so just visible in this file
 struct dataStruct{
   MIDIMessage mMessage;
-  StatusByte mRunningStatus;
-  byte mPendingMessage[3];
+  uint8_t mRunningStatus;
+  uint8_t mPendingMessage[3];
   uint8_t mPendingMessageExpectedLength;
   uint8_t mPendingMessageIndex;
 };
@@ -51,19 +51,19 @@ struct dataStruct d = {
 
 //Returns true if MIDIType input can have a channel
 //Needs modifying if capability for more channel type messages is added to library
-static byte isChannelMessage(MIDIType input) {
+static uint8_t isChannelMessage(MIDIType input) {
   return (input == NoteOff ||
           input == NoteOff ||
           input == NoteOff ||
           input == NoteOff);
 }
 
-static byte channelIsUsed(byte channel) {
+static uint8_t channelIsUsed(uint8_t channel) {
   if (channel < MIDI_CHANNELS) { return 1; }
   return 0;
 }
 
-static MIDIType getTypeFromStatusByte(byte input) {
+static MIDIType getTypeFromStatusByte(uint8_t input) {
   if ((input  < 0x80) ||
       (input == 0xA0) ||
       (input == 0xC0) ||
@@ -85,7 +85,7 @@ static MIDIType getTypeFromStatusByte(byte input) {
   return input;
 }
 
-static Channel getChannelFromStatusByte(StatusByte input) {
+static uint8_t getChannelFromStatusByte(uint8_t input) {
   return (input & 0x0f);
 }
 
@@ -97,10 +97,10 @@ static void handleNullVelocityNoteOnAsNoteOff(void) {
 }
 
 //Byte by byte parsing of incoming data
-static byte parse(void) {
+static uint8_t parse(void) {
   if (!serialAvailable()) { return 0; }
 
-  const byte extracted = serialReadByte();
+  const uint8_t extracted = serialReadByte();
 
   //If there is no message already in progress
   if (d.mPendingMessageIndex == 0) {

@@ -7,6 +7,6 @@
 #include <avr/interrupt.h>
 
 int serialReadByte(void);
-byte serialAvailable(void);
+uint8_t serialAvailable(void);
 void serialSetup(void);
 #endif

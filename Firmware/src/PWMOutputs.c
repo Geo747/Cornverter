@@ -1,7 +1,7 @@
 //Copyright 2018 George Rennie
 #include "PWMOutputs.h"
 
-void pwmWrite(byte value, byte channel, byte output) { //Input value is 7 bit
+void pwmWrite(uint8_t value, uint8_t channel, uint8_t output) { //Input value is 7 bit
   volatile uint8_t* OCR;
   ioPinStruct ioPin;
   volatile uint8_t* timerReg;
@@ -84,7 +84,7 @@ void pwmSetup(void) {
   TCCR1B |= (1 << CS10); //Set Timer 1 prescaler to clkio/1 i.e. 16Mhz
   TCCR1B &= ~(1 << CS11) & ~(1 << CS12);
 
-  OCR1AH = 0x00; //Timer 1 is 16 bit so has two ocr registers but as this program uses 8 bit pwm only so only the low byte should need to be written to
+  OCR1AH = 0x00; //Timer 1 is 16 bit so has two ocr registers but as this program uses 8 bit pwm only so only the low uint8_t should need to be written to
   OCR1BH = 0x00;
 
   pwmWrite(0, 0, 0);
