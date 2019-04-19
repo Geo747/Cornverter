@@ -13,6 +13,8 @@ uint8_t RPNMSB[] = {128, 128};
 uint8_t RPNLSB[] = {128, 128};
 uint8_t RPNNRPNMode[] = {2, 2}; //determines whether RPN or NRPN was set last
 
+uint8_t Ana2Mode[] = {0, 0};
+
 static inline uint8_t channelInRange(uint8_t channel) {
   if (channel < MIDI_CHANNELS) { return 1; }
   return 0;
@@ -23,6 +25,7 @@ void noteOnHandler(MIDIMessage message) {
   polyToMonoNoteOn(message.data1, message.data2, message.channel);
 
   VoctWriteNote(message.data1, message.channel);
+  if (Ana2Mode[message.channel] == 1) { pwmWrite(message.data2, message.channel, 1); }
   digitalOutputsUpdateGate(1, message.channel);
 }
 
@@ -34,6 +37,10 @@ void noteOffHandler(MIDIMessage message) {
   digitalOutputsUpdateGate(noteOn, message.channel);
   if (noteOn) {
     VoctWriteNote(polyToMonoCurrentNote(message.channel), message.channel);
+    if (Ana2Mode[message.channel] == 1) { pwmWrite(polyToMonoCurrentVelocity(message.channel), message.channel, 1); }
+  }
+  else {
+    if (Ana2Mode[message.channel] == 1) { pwmWrite(0, message.channel, 1); }
   }
 }
 
@@ -75,11 +82,15 @@ void controlChangeHandler(MIDIMessage message) {
       break;
 
     case 16:
-      pwmWrite(message.data2, message.channel, 1);
+      if (Ana2Mode[message.channel] == 0) { pwmWrite(message.data2, message.channel, 1); }
       break;
 
     case 17:
       VoctSetAccuracy((message.data2 >= 64), message.channel);
+      break;
+
+    case 18:
+      Ana2Mode[message.channel] = (message.data2 >= 64);
       break;
 
     case 98: //NRPN LSB and MSB(not currently used)
