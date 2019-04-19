@@ -8,6 +8,7 @@
 
 uint8_t clockCounter = 0;
 uint8_t resetState = 0;
+uint8_t clockDivision = 12;
 
 uint8_t RPNMSB[] = {128, 128};
 uint8_t RPNLSB[] = {128, 128};
@@ -108,6 +109,10 @@ void controlChangeHandler(MIDIMessage message) {
       RPNNRPNMode[message.channel] = 0;
       break;
 
+    case 19: //Clock Divider
+      clockDivision = message.data2;
+      break;
+
     case 120:
     case 123:
       //Midi all notes off messages
@@ -128,14 +133,14 @@ void pitchBendHandler(MIDIMessage message) {
 
 void clockHandler(MIDIMessage message) {
   if (clockCounter == 0) { digitalOutputsUpdateClock(1); }
-  else if (clockCounter == 2) {
+  else if (clockCounter == clockDivision) {
     if (resetState) { 
       digitalOutputsUpdateReset(0);
       resetState = 0;
     }
     digitalOutputsUpdateClock(0); 
   }
-  clockCounter = (clockCounter + 1) % 4; //Outputs a clock pulse every 12th of a quarter note
+  clockCounter = (clockCounter + 1) % (2 * clockDivision);
 }
 
 void startContinueHandler(MIDIMessage message) {

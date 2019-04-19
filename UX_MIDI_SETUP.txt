@@ -23,3 +23,4 @@ Config CCs:
 -Voct Accuracy - MIDI CC 17 (Below 64 sets 0 - 4V, above 64 sets 0 - 8V, defaults to 0 - 8V)
 -Pitch Bend Range - RPN 00 (Defaults to +-2 semitones)
 -Ana 2 Source - MIDI CC 18 (Below 64 sets the output source to MIDI CC 16, above sets to Velocity, defaults to MIDI CC 16)
+-Clock division - MIDI CC 19 (The number of MIDI ticks between clock state changes resultant frequency = BPM * 12 / MIDI CC 19, defaults to quarter note output)
