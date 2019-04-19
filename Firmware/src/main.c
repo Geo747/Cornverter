@@ -27,10 +27,10 @@ void noteOffHandler(MIDIMessage message) {
   polyToMonoNoteOff(message.data1, message.channel);
 
   uint8_t noteOn = polyToMonoIsNoteOn(message.channel);
+  digitalOutputsUpdateGate(noteOn, message.channel);
   if (noteOn) {
     VoctWriteNote(polyToMonoCurrentNote(message.channel), message.channel);
   }
-  digitalOutputsUpdateGate(noteOn, message.channel);
 }
 
 void controlChangeHandler(MIDIMessage message) {
