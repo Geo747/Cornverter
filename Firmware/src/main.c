@@ -45,7 +45,8 @@ void noteOffHandler(MIDIMessage message) {
   if (noteOn) {
     VoctWriteNote(polyToMonoCurrentNote(message.channel), message.channel);
     if (Ana2Mode[message.channel] == 1) {
-      pwmWrite(polyToMonoCurrentVelocity(message.channel), message.channel, 1);
+      uint8_t currentVelocity = polyToMonoCurrentVelocity(message.channel);
+      pwmWrite(currentVelocity, message.channel, 1);
     }
   }
   else {
