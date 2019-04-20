@@ -102,16 +102,10 @@ void ioPinsWrite(ioPinStruct ioPin, uint8_t state) {
 
 static void initPin(ioPinStruct ioPin) {
   volatile uint8_t* DDR = ioPinsGetDDR(ioPin);
-  switch (ioPin.direction) {
-    case 0:
-      *DDR &= ~(1 << ioPin.bit);
-      break;
-    case 1:
+  if (ioPin.direction == 0) { *DDR &= ~(1 << ioPin.bit); }
+  else {
       *DDR |= (1 << ioPin.bit);
       ioPinsWrite(ioPin, 0);
-      break;
-    default:
-      return;
   }
 }
 
