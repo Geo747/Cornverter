@@ -1,7 +1,10 @@
 //Copyright 2019 George Rennie
 #include "MCP4822.h"
 
-static void sendByte(uint8_t byteToSend) { //TODO: Change this to use a ring buffer and interrupts
+//TODO: Change this to use a ring buffer and interrupts
+
+//Send a single byte out over spi
+static void sendByte(uint8_t byteToSend) {
   SPDR = byteToSend;
   while (!(SPSR & (1 << SPIF)));
 }
@@ -9,7 +12,8 @@ static void sendByte(uint8_t byteToSend) { //TODO: Change this to use a ring buf
 void MCP4822Setup(void) {
   ioPinsWrite(ioPins.MCP4822CS, 1);
   
-  SPCR &= ~((1 << DORD) | (1 << CPOL) | (1 << CPHA)); //Use MSB First and hold sck low when idle and sample on leading edge
+  //Use MSB First and hold sck low when idle and sample on leading edge
+  SPCR &= ~((1 << DORD) | (1 << CPOL) | (1 << CPHA));
   SPCR |= (1 << MSTR); //Act as master
   SPCR |= ((1 << SPR1) | (1 << SPR0)); //Use Fosc/2 prescaler
   SPSR &= ~(1 << SPI2X);
