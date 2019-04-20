@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #ifndef MCP4822_H
 #define MCP4822_H
 

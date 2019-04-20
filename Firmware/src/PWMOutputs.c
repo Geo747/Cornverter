@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #include "PWMOutputs.h"
 
 void pwmWrite(uint8_t value, uint8_t channel, uint8_t output) { //Input value is 7 bit

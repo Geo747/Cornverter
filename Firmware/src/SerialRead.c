@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #include "SerialRead.h"
 
 uint8_t mRxBuffer[RX_BUFFER_SIZE];

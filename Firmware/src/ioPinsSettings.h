@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 
 //NOTE: To add a new pin, add it in the ioPinsStruct declaration, ioPins definition and ioPinsSetup
 

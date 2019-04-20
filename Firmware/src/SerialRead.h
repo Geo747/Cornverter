@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #ifndef SERIALREAD_H
 #define SERIALREAD_H
 

@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #ifndef DIGITALOUTPUTS_H
 #define DIGITALOUTPUTS_H
 

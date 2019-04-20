@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #ifndef MIDIDEFS_H
 #define MIDIDEFS_H
 

@@ -1,4 +1,4 @@
-# Copyright George Rennie 2018
+# Copyright George Rennie 2019
 
 # make all = Make software and program and upload
 # make clean = Clean out built project files.

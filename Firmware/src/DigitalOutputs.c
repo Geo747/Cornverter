@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #include "DigitalOutputs.h"
 
 void digitalOutputsUpdateGate(uint8_t state, uint8_t channel) {

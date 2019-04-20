@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #include "MCP4822.h"
 
 static void sendByte(uint8_t byteToSend) { //TODO: Change this to use a ring buffer and interrupts

@@ -1,4 +1,4 @@
-Copyright George Rennie 2018
+Copyright George Rennie 2019
 
 CORNVERTER MIDI CONFIGURATION
 

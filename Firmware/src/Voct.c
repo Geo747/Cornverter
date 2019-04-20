@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #include "Voct.h"
 
 static uint16_t mCurrentNote[] = {0, 0};

@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #include "MIDI.h"
 
 //Struct containing function pointers to callback functions

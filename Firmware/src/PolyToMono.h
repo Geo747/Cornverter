@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #ifndef POLYTOMONO_H
 #define POLYTOMONO_H
 

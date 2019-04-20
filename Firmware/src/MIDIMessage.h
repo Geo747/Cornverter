@@ -1,4 +1,4 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #ifndef MIDIMESSAGE_H
 #define MIDIMESSAGE_H
 

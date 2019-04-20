@@ -1,4 +1,4 @@
-/*Copyright 2018 George Rennie
+/*Copyright 2019 George Rennie
 
 Things to note:
 When no note is playing a value of 128 is returned as both note and velocity
