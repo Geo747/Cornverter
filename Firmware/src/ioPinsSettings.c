@@ -95,6 +95,11 @@ volatile uint8_t* ioPinsGetPIN(ioPinStruct ioPin) {
   else                    { return &PIND; }
 }
 
+void ioPinsWrite(ioPinStruct ioPin, uint8_t state) {
+  if (state == 0) { *ioPinsGetPORT(ioPin) &= ~(1 << ioPin.bit); }
+  else            { *ioPinsGetPORT(ioPin) |= (1 << ioPin.bit); }
+}
+
 static void initPin(ioPinStruct ioPin) {
   volatile uint8_t* DDR = ioPinsGetDDR(ioPin);
   switch (ioPin.direction) {

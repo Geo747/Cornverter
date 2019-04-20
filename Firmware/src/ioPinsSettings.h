@@ -42,10 +42,11 @@ typedef struct {
 //Struct with pin data in, defined in .c
 extern const ioPinsStruct ioPins;
 
-//Helpful function
+//Helpful functions
 volatile uint8_t* ioPinsGetPORT(ioPinStruct ioPin);
 volatile uint8_t* ioPinsGetDDR(ioPinStruct ioPin);
 volatile uint8_t* ioPinsGetPIN(ioPinStruct ioPin);
+void ioPinsWrite(ioPinStruct ioPin, uint8_t state);
 
 void ioPinsSetup(void);
 
