@@ -108,7 +108,7 @@ static void initPin(ioPinStruct ioPin) {
       break;
     case 1:
       *DDR |= (1 << ioPin.bit);
-      *ioPinsGetPORT(ioPin) &= ~(1 << ioPin.bit);
+      ioPinsWrite(ioPin, 0);
       break;
     default:
       return;
