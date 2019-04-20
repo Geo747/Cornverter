@@ -10,7 +10,7 @@ void digitalOutputsUpdateGate(uint8_t state, uint8_t channel) {
   ioPinsWrite(ioPin, state);
 }
 
-void digitalOutputsUpdateDigi(uint8_t state, uint8_t channel, uint8_t output) {
+void digitalOutputsUpdateDigi(uint8_t state, uint8_t channel, uint8_t output){
   ioPinStruct possibleIoPins[2][3] = {
     {ioPins.digi1ch1, ioPins.digi2ch1, ioPins.digi3ch1},
     {ioPins.digi1ch2, ioPins.digi2ch2, ioPins.digi3ch2}
