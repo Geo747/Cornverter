@@ -100,6 +100,9 @@ void ioPinsWrite(ioPinStruct ioPin, uint8_t state) {
   else            { *ioPinsGetPORT(ioPin) |= (1 << ioPin.bit); }
 }
 
+/*Sets corresponding DDR bit for all pins to their direction value.
+  Also writes pins with direction == 1 (outputs) low
+*/
 static void initPin(ioPinStruct ioPin) {
   volatile uint8_t* DDR = ioPinsGetDDR(ioPin);
   if (ioPin.direction == 0) { *DDR &= ~(1 << ioPin.bit); }
