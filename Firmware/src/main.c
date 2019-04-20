@@ -17,8 +17,7 @@ uint8_t RPNNRPNMode[] = {2, 2}; //determines whether RPN or NRPN was set last
 uint8_t Ana2Mode[] = {0, 0};
 
 static inline uint8_t channelInRange(uint8_t channel) {
-  if (channel < MIDI_CHANNELS) { return 1; }
-  return 0;
+  return (channel < MIDI_CHANNELS);
 }
 
 void noteOnHandler(MIDIMessage message) {
@@ -47,14 +46,14 @@ void noteOffHandler(MIDIMessage message) {
 
 void RPNNRPNHandler(uint8_t channel, uint8_t value) {
   if (RPNNRPNMode[channel] == 0) { //If RPN not NRPN
-    uint16_t address = (RPNMSB[channel] << 7) | RPNLSB[channel];
+    uint16_t address = (RPNMSB[channel] << 7) | RPNLSB[channel]; //14 bit RPN address
     switch (address) {
-    case 0: //Pitchbend range RPN
-      VoctSetPitchBendRange(value, channel);
-      break;
-    
-    default:
-      break;
+      case 0: //Pitchbend range RPN
+        VoctSetPitchBendRange(value, channel);
+        break;
+      
+      default:
+        break;
     }
   }
 }
@@ -66,31 +65,31 @@ void controlChangeHandler(MIDIMessage message) {
       RPNNRPNHandler(message.channel, message.data2);
       break;
 
-    case 80:
+    case 80: //Digi 1 output
       digitalOutputsUpdateDigi((message.data2 >= 64), message.channel, 0);
       break;
 
-    case 81:
+    case 81: //Digi 2 output
       digitalOutputsUpdateDigi((message.data2 >= 64), message.channel, 1);
       break;
 
-    case 82:
+    case 82: //Digi 3 output
       digitalOutputsUpdateDigi((message.data2 >= 64), message.channel, 2);
       break;
 
-    case 1:
+    case 1: //Analog 1 output
       pwmWrite(message.data2, message.channel, 0);
       break;
 
-    case 16:
+    case 16: //Analog 2 output - only active if Ana2Mode[channel] == 0 (i.e in CC mode not velocity mode)
       if (Ana2Mode[message.channel] == 0) { pwmWrite(message.data2, message.channel, 1); }
       break;
 
-    case 17:
+    case 17: //V/Oct accuracy setting - 0-4v for data2 < 64 and 0-8v for data2 >= 64
       VoctSetAccuracy((message.data2 >= 64), message.channel);
       break;
 
-    case 18:
+    case 18: //Set mode for Analog 2 output - Controlled by CC 16 for data2 < 64 and by velocity for data2 >= 64
       Ana2Mode[message.channel] = (message.data2 >= 64);
       break;
 
@@ -114,11 +113,9 @@ void controlChangeHandler(MIDIMessage message) {
       break;
 
     case 120:
-    case 123:
-      //Midi all notes off messages
+    case 123: //Midi all notes off messages
       digitalOutputsUpdateGate(0, message.channel); //Turn off gate
       polyToMonoAllNotesOff(message.channel); //Turn off notes
-      //Leave other controllers as they are
       break;
 
     default:
@@ -131,7 +128,7 @@ void pitchBendHandler(MIDIMessage message) {
   VoctWritePitchBend(message.data1, message.data2, message.channel);
 }
 
-void clockHandler(MIDIMessage message) {
+void clockHandler(MIDIMessage message) { //Creates clock with period  of 2 * clockDivision * MIDI tick rate
   if (clockCounter == 0) { digitalOutputsUpdateClock(1); }
   else if (clockCounter == clockDivision) {
     if (resetState) { 
@@ -143,7 +140,7 @@ void clockHandler(MIDIMessage message) {
   clockCounter = (clockCounter + 1) % (2 * clockDivision);
 }
 
-void startContinueHandler(MIDIMessage message) {
+void startContinueHandler(MIDIMessage message) { //Called on start or continue midi messages
   digitalOutputsUpdateReset(1);
   resetState = 1;
   clockCounter = 0;
