@@ -13,15 +13,29 @@ void VoctSetup(void) {
 }
 
 void writeToDac(uint8_t channel) {
-  int32_t outputValue = ((int32_t)4095 * (int32_t)(mCurrentNote[channel]));
-  outputValue += ((int32_t)4095 * (mCurrentPitchBend[channel] - (int32_t)8192) * mPitchBendRange[channel]) / (int32_t)8192;
+  //Center 14 bit pitchbend value
+  int32_t pitchBendOffset = mCurrentPitchBend[channel] - (int32_t)8192;
+  //Multiply by range of note
+  pitchBendOffset *= mPitchBendRange[channel];
+  //Multiply by 4095 to scale for DAC
+  pitchBendOffset *= (int32_t)4095;
+  //Divide by 2^13 so the value sits between +- mPitchBendRange[channel]
+  pitchBendOffset /= (int32_t)8192;
+  //Calculate DAC value for current note
+  int32_t outputValue = mCurrentNote[channel] * (int32_t)4095;
+  //Add note and pitchbend DAC values
+  outputValue += pitchBendOffset;
 
-  uint16_t modValue = outputValue % NOTE_RANGE[mAccuracy[channel]];
+  //Used to allow rounding
+  int32_t modValue = outputValue % NOTE_RANGE[mAccuracy[channel]];
 
+  //Divide by note range to fit all values in DAC range
   outputValue /= (int32_t)NOTE_RANGE[mAccuracy[channel]];
 
+  //Round to nearest DAC value
   if (modValue >= NOTE_RANGE[mAccuracy[channel]] / 2) { outputValue += 1; };
 
+  //Limit value to DAC bounds
   if   (outputValue > 4095) { outputValue = 4095; }
   else if (outputValue < 0) { outputValue = 0; }
 
@@ -29,8 +43,6 @@ void writeToDac(uint8_t channel) {
 }
 
 void VoctWriteNote(uint8_t note, uint8_t channel) {
-  if (channel > 1) { return; }
-
   if ((note < LOWEST_NOTE[mAccuracy[channel]])
   || (note > HIGHEST_NOTE[mAccuracy[channel]])) { return; }
 
@@ -39,9 +51,7 @@ void VoctWriteNote(uint8_t note, uint8_t channel) {
   writeToDac(channel);
 }
 
-void VoctWritePitchBend(uint8_t lsb, uint8_t msb, uint8_t channel) {
-  if (channel > 1) { return; }
-  
+void VoctWritePitchBend(uint8_t lsb, uint8_t msb, uint8_t channel) {  
   mCurrentPitchBend[channel] = msb << 7 | lsb;
 
   writeToDac(channel);
