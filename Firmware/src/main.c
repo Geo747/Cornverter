@@ -12,23 +12,30 @@ uint8_t clockDivision = 12;
 
 uint8_t RPNMSB[] = {128, 128};
 uint8_t RPNLSB[] = {128, 128};
-uint8_t RPNNRPNMode[] = {2, 2}; //determines whether RPN or NRPN was set last
+uint8_t RPNNRPNMode[] = {2, 2}; //Determines whether RPN or NRPN was set last
 
 uint8_t Ana2Mode[] = {0, 0};
 
+//Checks if a channel is in the range set in Settings.h
 static inline uint8_t channelInRange(uint8_t channel) {
   return (channel < MIDI_CHANNELS);
 }
 
+//Called on note on messages
 void noteOnHandler(MIDIMessage message) {
   if (!channelInRange(message.channel)) { return; };
   polyToMonoNoteOn(message.data1, message.data2, message.channel);
 
   VoctWriteNote(message.data1, message.channel);
-  if (Ana2Mode[message.channel] == 1) { pwmWrite(message.data2, message.channel, 1); }
-  digitalOutputsUpdateGate(polyToMonoIsNoteOn(message.channel), message.channel);
+  if (Ana2Mode[message.channel] == 1) {
+    pwmWrite(message.data2, message.channel, 1); 
+  }
+  
+  uint8_t isNoteOn = polyToMonoIsNoteOn(message.channel);
+  digitalOutputsUpdateGate(isNoteOn, message.channel);
 }
 
+//Called on note off messages
 void noteOffHandler(MIDIMessage message) {
   if (!channelInRange(message.channel)) { return; };
   polyToMonoNoteOff(message.data1, message.channel);
@@ -37,16 +44,23 @@ void noteOffHandler(MIDIMessage message) {
   digitalOutputsUpdateGate(noteOn, message.channel);
   if (noteOn) {
     VoctWriteNote(polyToMonoCurrentNote(message.channel), message.channel);
-    if (Ana2Mode[message.channel] == 1) { pwmWrite(polyToMonoCurrentVelocity(message.channel), message.channel, 1); }
+    if (Ana2Mode[message.channel] == 1) {
+      pwmWrite(polyToMonoCurrentVelocity(message.channel), message.channel, 1);
+    }
   }
   else {
     if (Ana2Mode[message.channel] == 1) { pwmWrite(0, message.channel, 1); }
   }
 }
 
+/*Called whenever Data Entry MSB CC 6 is changed.
+  Handles RPNs or NRPNs depending on which last had addresses sent
+*/
 void RPNNRPNHandler(uint8_t channel, uint8_t value) {
   if (RPNNRPNMode[channel] == 0) { //If RPN not NRPN
-    uint16_t address = (RPNMSB[channel] << 7) | RPNLSB[channel]; //14 bit RPN address
+    //14 bit RPN address
+    uint16_t address = (RPNMSB[channel] << 7) | RPNLSB[channel];
+
     switch (address) {
       case 0: //Pitchbend range RPN
         VoctSetPitchBendRange(value, channel);
@@ -58,10 +72,16 @@ void RPNNRPNHandler(uint8_t channel, uint8_t value) {
   }
 }
 
+//Called on CC messages
 void controlChangeHandler(MIDIMessage message) {
   if (!channelInRange(message.channel)) { return; };
   switch(message.data1) {
-    case 6: //RPN and NRPN Data entry (technically only MSB but currently nothing is implemented that needs LSB)
+
+    /*RPN and NRPN Data entry.
+      This is technically only the MSB
+      however currently nothing is implemented that needs the LSB
+    */
+    case 6: 
       RPNNRPNHandler(message.channel, message.data2);
       break;
 
@@ -81,15 +101,26 @@ void controlChangeHandler(MIDIMessage message) {
       pwmWrite(message.data2, message.channel, 0);
       break;
 
-    case 16: //Analog 2 output - only active if Ana2Mode[channel] == 0 (i.e in CC mode not velocity mode)
-      if (Ana2Mode[message.channel] == 0) { pwmWrite(message.data2, message.channel, 1); }
+    /*Analog 2 output - 
+      Only active if Ana2Mode[channel] == 0
+      (i.e in CC mode not velocity mode)
+    */
+    case 16: 
+      if (Ana2Mode[message.channel] == 0) {
+        pwmWrite(message.data2, message.channel, 1);
+      }
       break;
 
-    case 17: //V/Oct accuracy setting - 0-4v for data2 < 64 and 0-8v for data2 >= 64
+    //V/Oct accuracy setting - 0-4v for data2 < 64 and 0-8v for data2 >= 64
+    case 17:
       VoctSetAccuracy((message.data2 >= 64), message.channel);
       break;
 
-    case 18: //Set mode for Analog 2 output - Controlled by CC 16 for data2 < 64 and by velocity for data2 >= 64
+    /*Set mode for Analog 2 output - 
+      It is controlled by CC 16 for data2 < 64
+      and by velocity for data2 >= 64
+    */
+    case 18: 
       Ana2Mode[message.channel] = (message.data2 >= 64);
       break;
 
@@ -112,8 +143,9 @@ void controlChangeHandler(MIDIMessage message) {
       clockDivision = message.data2;
       break;
 
+    //Midi all notes off messages
     case 120:
-    case 123: //Midi all notes off messages
+    case 123: 
       digitalOutputsUpdateGate(0, message.channel); //Turn off gate
       polyToMonoAllNotesOff(message.channel); //Turn off notes
       break;
@@ -123,12 +155,14 @@ void controlChangeHandler(MIDIMessage message) {
   }
 }
 
+//Called on pitchbend messages
 void pitchBendHandler(MIDIMessage message) {
   if (!channelInRange(message.channel)) { return; };
   VoctWritePitchBend(message.data1, message.data2, message.channel);
 }
 
-void clockHandler(MIDIMessage message) { //Creates clock with period  of 2 * clockDivision * MIDI tick rate
+//Creates clock with period  of 2 * clockDivision * MIDI tick period
+void clockHandler(MIDIMessage message) {
   if (clockCounter == 0) { digitalOutputsUpdateClock(1); }
   else if (clockCounter == clockDivision) {
     if (resetState) { 
@@ -140,18 +174,23 @@ void clockHandler(MIDIMessage message) { //Creates clock with period  of 2 * clo
   clockCounter = (clockCounter + 1) % (2 * clockDivision);
 }
 
-void startContinueHandler(MIDIMessage message) { //Called on start or continue midi messages
+//Called on start or continue MIDI messages
+void startContinueHandler(MIDIMessage message) {
   digitalOutputsUpdateReset(1);
   resetState = 1;
   clockCounter = 0;
 }
 
+//Called on MIDI stop messages
 void stopHandler(MIDIMessage message) {
   digitalOutputsUpdateClock(0);
   digitalOutputsUpdateReset(0);
   resetState = 0;
 }
 
+/*Assigns callback handler functions to be 
+  triggered from different types of MIDI message
+*/
 void setMIDICallbacks(void) {
   setMIDICallback(noteOffHandler,       NoteOff);
   setMIDICallback(noteOnHandler,        NoteOn);
@@ -163,6 +202,7 @@ void setMIDICallbacks(void) {
   setMIDICallback(stopHandler,          Stop);
 }
 
+//Calls all other setup functions in different files to initialise device
 void setup(void) {
   ioPinsSetup();
   MIDISetup();
@@ -172,6 +212,7 @@ void setup(void) {
   VoctSetup();
 }
 
+//Run at power up 
 int main(void) {
   setup();
   while (1) {
