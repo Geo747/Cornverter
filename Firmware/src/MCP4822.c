@@ -21,7 +21,7 @@ void MCP4822Setup(void) {
 }
 
 void MCP4822Write(uint16_t value, uint8_t channel, uint8_t accuracy){
-  accuracy = (accuracy != 1); //Accuracy can only be 1 or 0
+  accuracy = (accuracy != 0); //Accuracy can only be 1 or 0
   if (value > 4095) { value = 4095; }
 
   ioPinsWrite(ioPins.MCP4822CS, 0);
