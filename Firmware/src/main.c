@@ -16,14 +16,8 @@ uint8_t RPNNRPNMode[] = {2, 2}; //Determines whether RPN or NRPN was set last
 
 uint8_t Ana2Mode[] = {0, 0};
 
-//Checks if a channel is in the range set in Settings.h
-static inline uint8_t channelInRange(uint8_t channel) {
-  return (channel < MIDI_CHANNELS);
-}
-
 //Called on note on messages
 void noteOnHandler(MIDIMessage message) {
-  if (!channelInRange(message.channel)) { return; };
   polyToMonoNoteOn(message.data1, message.data2, message.channel);
 
   VoctWriteNote(message.data1, message.channel);
@@ -37,7 +31,6 @@ void noteOnHandler(MIDIMessage message) {
 
 //Called on note off messages
 void noteOffHandler(MIDIMessage message) {
-  if (!channelInRange(message.channel)) { return; };
   polyToMonoNoteOff(message.data1, message.channel);
 
   uint8_t noteOn = polyToMonoIsNoteOn(message.channel);
@@ -75,7 +68,6 @@ void RPNNRPNHandler(uint8_t channel, uint8_t value) {
 
 //Called on CC messages
 void controlChangeHandler(MIDIMessage message) {
-  if (!channelInRange(message.channel)) { return; };
   switch(message.data1) {
 
     /*RPN and NRPN Data entry.
@@ -158,7 +150,6 @@ void controlChangeHandler(MIDIMessage message) {
 
 //Called on pitchbend messages
 void pitchBendHandler(MIDIMessage message) {
-  if (!channelInRange(message.channel)) { return; };
   VoctWritePitchBend(message.data1, message.data2, message.channel);
 }
 
