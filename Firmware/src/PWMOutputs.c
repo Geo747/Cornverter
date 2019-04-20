@@ -1,7 +1,8 @@
 //Copyright 2019 George Rennie
 #include "PWMOutputs.h"
 
-void pwmWrite(uint8_t value, uint8_t channel, uint8_t output) { //Input value is 7 bit
+//Input value should be 7 bit
+void pwmWrite(uint8_t value, uint8_t channel, uint8_t output) { 
   volatile uint8_t* OCR;
   ioPinStruct ioPin;
   volatile uint8_t* timerReg;
@@ -53,12 +54,12 @@ void pwmWrite(uint8_t value, uint8_t channel, uint8_t output) { //Input value is
   value = value << 1;
   *OCR = value;
 
+  ioPinsWrite(ioPin, value);
+
   if (value == 0) {
-    *ioPinsGetPORT(ioPin) &= ~(1 << ioPin.bit);
     *timerReg &= ~(1 << timerRegBit);
   }
   else {
-    *ioPinsGetPORT(ioPin) |= (1 << ioPin.bit);
     *timerReg |= (1 << timerRegBit);
   }
 }
@@ -67,8 +68,9 @@ void pwmSetup(void) {
   //Pins PD5, PD6 use timer 0B and 0A respectively (Ana1Ch2 and Ana1Ch1)
   //Pins PB1, PB2 use timer 1A and 1B respectively (Ana2Ch1 and Ana2Ch2)
 
+  //Set compare output mode to non inverting
   TCCR0A &= ~(1 << COM0A0) & ~(1 << COM0B0);
-  TCCR1A &= ~(1 << COM1A0) & ~(1 << COM1B0); //set compare output mode to non inverting
+  TCCR1A &= ~(1 << COM1A0) & ~(1 << COM1B0); 
 
   TCCR0A |= (1 << WGM00) | (1 << WGM01); //Set timer 0 to Fast PWM
   TCCR0B &= ~(1 << WGM02); 
@@ -84,7 +86,11 @@ void pwmSetup(void) {
   TCCR1B |= (1 << CS10); //Set Timer 1 prescaler to clkio/1 i.e. 16Mhz
   TCCR1B &= ~(1 << CS11) & ~(1 << CS12);
 
-  OCR1AH = 0x00; //Timer 1 is 16 bit so has two ocr registers but as this program uses 8 bit pwm only so only the low uint8_t should need to be written to
+  /*Timer 1 is 16 bit so has two ocr registers but as
+    this program uses 8 bit pwm only so only the low uint8_t
+    should need to be written to
+  */
+  OCR1AH = 0x00; 
   OCR1BH = 0x00;
 
   pwmWrite(0, 0, 0);

@@ -4,7 +4,12 @@
 
 #include "Settings.h"
 
+/*Write to the registers to allow timer 0 and 1 PWM to work in the
+  correct mode of operation
+*/
 void pwmSetup(void);
-void pwmWrite(uint8_t value, uint8_t channel, uint8_t output); //Set the corresponding one of the 2 outputs for that channel with that byte
+
+//Write a value from 0 - 127 to a PWM output for a given channel
+void pwmWrite(uint8_t value, uint8_t channel, uint8_t output);
 
 #endif
