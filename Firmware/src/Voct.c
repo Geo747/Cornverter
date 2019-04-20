@@ -2,7 +2,7 @@
 #include "Voct.h"
 
 static uint16_t mCurrentNote[] = {0, 0};
-static uint16_t mCurrentPitchBend[] = {16384, 16384};
+static uint16_t mCurrentPitchBend[] = {8192, 8192};
 static uint8_t mPitchBendRange[] = {2, 2};
 static uint8_t mAccuracy[] = {1, 1};
 
