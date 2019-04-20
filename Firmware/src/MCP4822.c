@@ -7,7 +7,7 @@ static void sendByte(uint8_t byteToSend) { //TODO: Change this to use a ring buf
 }
 
 void MCP4822Setup(void) {
-  *ioPinsGetPORT(ioPins.MCP4822CS) |= (1 << (ioPins.MCP4822CS.bit));
+  ioPinsWrite(ioPins.MCP4822CS, 1);
   
   SPCR &= ~((1 << DORD) | (1 << CPOL) | (1 << CPHA)); //Use MSB First and hold sck low when idle and sample on leading edge
   SPCR |= (1 << MSTR); //Act as master
@@ -17,10 +17,10 @@ void MCP4822Setup(void) {
 }
 
 void MCP4822Write(uint16_t value, uint8_t channel, uint8_t accuracy){
-  if (accuracy > 1) { accuracy = 1; }
+  accuracy = (accuracy != 1); //Accuracy can only be 1 or 0
   if (value > 4095) { value = 4095; }
 
-  *ioPinsGetPORT(ioPins.MCP4822CS) &= ~(1 << (ioPins.MCP4822CS.bit));
+  ioPinsWrite(ioPins.MCP4822CS, 0);
   sendByte(
     ((value >> 8) & 0x0F)
     | ((channel << 7) & 0x80)
@@ -29,5 +29,5 @@ void MCP4822Write(uint16_t value, uint8_t channel, uint8_t accuracy){
   );
 
   sendByte(value & 0xFF);
-  *ioPinsGetPORT(ioPins.MCP4822CS) |= (1 << (ioPins.MCP4822CS.bit));
+  ioPinsWrite(ioPins.MCP4822CS, 1);
 }
