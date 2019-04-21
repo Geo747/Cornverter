@@ -322,7 +322,10 @@ void MIDIRead() {
     return;
   }
 
-  if (!channelIsUsed(d.mMessage.channel)) { return; }
+  if (isChannelMessage(d.mMessage.type) && 
+    !channelIsUsed(d.mMessage.channel)) {
+    return;
+  }
 
   handleNullVelocityNoteOnAsNoteOff();
 
