@@ -106,6 +106,7 @@ void controlChangeHandler(MIDIMessage message) {
 
     //V/Oct accuracy setting - 0-4v for data2 < 64 and 0-8v for data2 >= 64
     case 17:
+      polyToMonoSetAccuracy(message.data2 >= 64, message.channel);
       VoctSetAccuracy((message.data2 >= 64), message.channel);
       break;
 
