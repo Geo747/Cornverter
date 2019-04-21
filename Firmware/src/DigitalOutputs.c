@@ -1,114 +1,30 @@
-//Copyright 2018 George Rennie
+//Copyright 2019 George Rennie
 #include "DigitalOutputs.h"
 
-void digitalOutputsUpdateGate(byte state, byte channel) { //Logic to update the output state of the corresponding pin for that gate
-  ioPinStruct ioPin;
-  
-  switch (channel) {
-    case 0:
-      ioPin = ioPins.gate1;
-      break;
-    case 1:
-      ioPin = ioPins.gate2;
-      break;
-    default:
-      return;
-  }
-  
-  switch (state) {
-    case 0:
-      *ioPinsGetPORT(ioPin) &= ~(1 << ioPin.bit);
-      break;
-    case 1:
-      *ioPinsGetPORT(ioPin) |= (1 << ioPin.bit);
-      break;
-    default:
-      return;
-  }
-}
-
-void digitalOutputsUpdateDigi(byte state, byte channel, byte output) { //Logic to update the output state of the corresponding pin for that digi out
+void digitalOutputsUpdateGate(uint8_t state, uint8_t channel) {
   ioPinStruct ioPin;
 
-  switch (channel) {
-    case 0:
-      switch (output) {
-        case 0:
-          ioPin = ioPins.digi1ch1;
-          break;
+  if      (channel == 0) { ioPin = ioPins.gate1; }
+  else if (channel == 1) { ioPin = ioPins.gate2; }
 
-        case 1:
-          ioPin = ioPins.digi2ch1;
-          break;
-
-        case 2:
-          ioPin = ioPins.digi3ch1;
-          break;
-
-        default:
-          return;
-      }
-      break;
-
-    case 1:
-      switch (output) {
-        case 0:
-          ioPin = ioPins.digi1ch2;
-          break;
-
-        case 1:
-          ioPin = ioPins.digi2ch2;
-          break;
-
-        case 2:
-          ioPin = ioPins.digi3ch2;
-          break;
-
-        default:
-          return;
-      }
-      break;
-
-    default:
-      return;
-  }
-
-  switch (state) {
-    case 0:
-      *ioPinsGetPORT(ioPin) &= ~(1 << ioPin.bit);
-      break;
-    case 1:
-      *ioPinsGetPORT(ioPin) |= (1 << ioPin.bit);
-      break;
-    default:
-      return;
-  }
+  ioPinsWrite(ioPin, state);
 }
 
-void digitalOutputsUpdateClock(byte state) {
-  ioPinStruct ioPin = ioPins.clockOut;
-  switch (state) {
-    case 0:
-      *ioPinsGetPORT(ioPin) &= ~(1 << ioPin.bit);
-      break;
-    case 1:
-      *ioPinsGetPORT(ioPin) |= (1 << ioPin.bit);
-      break;
-    default:
-      return;
-  }
+void digitalOutputsUpdateDigi(uint8_t state, uint8_t channel, uint8_t output){
+  ioPinStruct possibleIoPins[2][3] = {
+    {ioPins.digi1ch1, ioPins.digi2ch1, ioPins.digi3ch1},
+    {ioPins.digi1ch2, ioPins.digi2ch2, ioPins.digi3ch2}
+  };
+
+  ioPinStruct ioPin = possibleIoPins[channel][output];
+
+  ioPinsWrite(ioPin, state);
 }
 
-void digitalOutputsUpdateReset(byte state) {
-  ioPinStruct ioPin = ioPins.resetOut;
-  switch (state) {
-    case 0:
-      *ioPinsGetPORT(ioPin) &= ~(1 << ioPin.bit);
-      break;
-    case 1:
-      *ioPinsGetPORT(ioPin) |= (1 << ioPin.bit);
-      break;
-    default:
-      return;
-  }
+void digitalOutputsUpdateClock(uint8_t state) {
+  ioPinsWrite(ioPins.clockOut, state);
+}
+
+void digitalOutputsUpdateReset(uint8_t state) {
+  ioPinsWrite(ioPins.resetOut, state);
 }

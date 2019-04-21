@@ -1,4 +1,4 @@
-Copyright George Rennie 2018
+Copyright George Rennie 2019
 
 CORNVERTER MIDI CONFIGURATION
 
@@ -14,4 +14,13 @@ Digital MIDI CCs (0 to 63 Off, 64 - 127 On):
 
 Analog MIDI CCs:
 -Ana 1 - MIDI CC 1 (Modulation Wheel)
--Ana 2 - MIDI CC 16
+-Ana 2 - MIDI CC 16 or Velocity as set by CC 18
+
+Additional Controls:
+-Pitch bend - MIDI pitch bend
+
+Config CCs:
+-Voct Accuracy - MIDI CC 17 (Below 64 sets 0 - 4V, above 64 sets 0 - 8V, defaults to 0 - 8V)
+-Pitch Bend Range - RPN 00 (Defaults to +-2 semitones)
+-Ana 2 Source - MIDI CC 18 (Below 64 sets the output source to MIDI CC 16, above sets to Velocity, defaults to MIDI CC 16)
+-Clock division - MIDI CC 19 (The number of MIDI ticks between clock state changes resultant frequency = BPM * 12 / MIDI CC 19, defaults to quarter note output)
