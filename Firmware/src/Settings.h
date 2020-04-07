@@ -31,6 +31,11 @@
 
   //Number of channels (starting from channel 0) that polytomono and main use
   #define MIDI_CHANNELS 2
+  #define BOTTOM_MIDI_CHANNEL 0
+
+  //Returns true if channel is in range
+  #define CHANNNEL_USED(chan) (chan < MIDI_CHANNELS + BOTTOM_MIDI_CHANNEL) && \
+    (chan >= BOTTOM_MIDI_CHANNEL)
 
   //Define notes for different accuracies
   static const uint8_t NOTE_RANGE[] = {48, 96};

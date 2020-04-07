@@ -36,54 +36,58 @@ void polyToMonoSetup(void) {
 }
 
 void polyToMonoSetAccuracy(uint8_t accuracy, uint8_t channel) {
-  if (channel < MIDI_CHANNELS) {
-    mAccuracy[channel] = accuracy;
+  if (CHANNNEL_USED(channel)) {
+    mAccuracy[channel - BOTTOM_MIDI_CHANNEL] = accuracy;
   }
 }
 
 //Returns true if the note is in the bounds set by the current accuracy
 static inline uint8_t noteInRange(uint8_t note, uint8_t channel) {
-  return(note >= LOWEST_NOTE[mAccuracy[channel]] && 
-    note <= HIGHEST_NOTE[mAccuracy[channel]]);
+  return(note >= LOWEST_NOTE[mAccuracy[channel - BOTTOM_MIDI_CHANNEL]] && 
+    note <= HIGHEST_NOTE[mAccuracy[channel - BOTTOM_MIDI_CHANNEL]]);
 }
 
 void polyToMonoNoteOn(uint8_t note, uint8_t velocity, uint8_t channel) {
   if (!noteInRange(note, channel)) { return; }
 
+  uint8_t chanIndex = channel - BOTTOM_MIDI_CHANNEL;
+
   /*If the note doesnt have a velocity of 128 (i.e. it is already 
     in the stack), and it isnt the last place on the stack
   */
-  if ((data[channel][note][2] != 128) && (note != saveNote[channel])) {
+  if ((data[chanIndex][note][2] != 128) && (note != saveNote[chanIndex])) {
 
     /*Patch the references for the two notes either side of the note's
       original place as it is now being moved to the front of the stack
     */
-		uint8_t prevNote = data[channel][note][0];
-		uint8_t nextNote = data[channel][note][1];
-		data[channel][prevNote][1] = nextNote;
-		data[channel][nextNote][0] = prevNote;
+		uint8_t prevNote = data[chanIndex][note][0];
+		uint8_t nextNote = data[chanIndex][note][1];
+		data[chanIndex][prevNote][1] = nextNote;
+		data[chanIndex][nextNote][0] = prevNote;
 	}
 
   //Save the velocity of the note
-	data[channel][note][2] = velocity;
+	data[chanIndex][note][2] = velocity;
   //If its a repeat of current held note do nothing more
-	if (note == saveNote[channel]) { return; }
+	if (note == saveNote[chanIndex]) { return; }
   //The next note for the previous note is the new note
-	data[channel][saveNote[channel]][1] = note;
+	data[chanIndex][saveNote[chanIndex]][1] = note;
    //The last note for the new note is the previous note
-	data[channel][note][0] = saveNote[channel];
-	saveNote[channel] = note;
+	data[chanIndex][note][0] = saveNote[chanIndex];
+	saveNote[chanIndex] = note;
 }
 
 void polyToMonoNoteOff(uint8_t note, uint8_t channel) {
   if (!noteInRange(note, channel)) { return; }
 
+  uint8_t chanIndex = channel - BOTTOM_MIDI_CHANNEL;
+  
   //Velocity off for note
-  data[channel][note][2] = 128;
+  data[chanIndex][note][2] = 128;
   
   //If it is last note on stack move pointer back one.
-	if (note == saveNote[channel]) {
-		saveNote[channel] = data[channel][note][0]; //Update savechannel
+	if (note == saveNote[chanIndex]) {
+		saveNote[chanIndex] = data[chanIndex][note][0]; //Update savechannel
 
     /*This line below was to fix a bug which I can no longer 
       reproduce for unknown reason.
@@ -98,10 +102,10 @@ void polyToMonoNoteOff(uint8_t note, uint8_t channel) {
 	else {
     //Patch references for preceding and following notes
     //So they reference each other and not the note that is being removed
-		uint8_t prevNote = data[channel][note][0]; 
-		uint8_t nextNote = data[channel][note][1]; 
-		data[channel][prevNote][1] = nextNote;
-		data[channel][nextNote][0] = prevNote;
+		uint8_t prevNote = data[chanIndex][note][0]; 
+		uint8_t nextNote = data[chanIndex][note][1]; 
+		data[chanIndex][prevNote][1] = nextNote;
+		data[chanIndex][nextNote][0] = prevNote;
 	}
 }
 
@@ -109,27 +113,30 @@ void polyToMonoNoteOff(uint8_t note, uint8_t channel) {
   consuming iterated fill that sets everything to 128?
   Meaning there cant be bugs where while loop doesnt escape
 */
-void polyToMonoAllNotesOff(uint8_t channel) { 
-  while (saveNote[channel] != 128) {
+void polyToMonoAllNotesOff(uint8_t channel) {
+  uint8_t chanIndex = channel - BOTTOM_MIDI_CHANNEL;
+
+  while (saveNote[chanIndex] != 128) {
     //Set last note on stack velocity  to 0
-    data[channel][saveNote[channel]][2] = 128;
+    data[chanIndex][saveNote[chanIndex]][2] = 128;
 
     /*As the velocity has been set to 128 (off) the values left in 
       its references are irrelevant
     */
-		saveNote[channel] = data[channel][saveNote[channel]][0];
+		saveNote[chanIndex] = data[chanIndex][saveNote[chanIndex]][0];
   }
 }
 
 uint8_t polyToMonoCurrentNote(uint8_t channel) {
-  return saveNote[channel];
+  return saveNote[channel - BOTTOM_MIDI_CHANNEL];
 }
 
 uint8_t polyToMonoCurrentVelocity(uint8_t channel) {
-  return data[channel][saveNote[channel]][2];
+  uint8_t chanIndex = channel - BOTTOM_MIDI_CHANNEL;
+  return data[chanIndex][saveNote[chanIndex]][2];
 }
 
 uint8_t polyToMonoIsNoteOn(uint8_t channel) {  
-  if (saveNote[channel] == 128) { return 0; }
+  if (saveNote[channel - BOTTOM_MIDI_CHANNEL] == 128) { return 0; }
   return 1;
 }
