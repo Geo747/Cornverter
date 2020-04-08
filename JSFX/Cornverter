@@ -216,9 +216,10 @@ while (
         (chan1 && c1a2Src) ? ( c1a2 = c1a2Old = msg3; sliderchange(c1a2); );
         (chan2 && c2a2Src) ? ( c2a2 = c2a2Old = msg3; sliderchange(c2a2); );
       );
-      
-      (chan1) ? ( midisend(offset, status + c1Out, msg2, msg3); );
-      (chan2) ? ( midisend(offset, status + c2Out, msg2, msg3); );
     );
+    (chan1) ? ( midisend(offset, status + c1Out, msg2, msg3); );
+    (chan2) ? ( midisend(offset, status + c2Out, msg2, msg3); );
+    
+    1;
   );
 );
