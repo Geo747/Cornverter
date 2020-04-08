@@ -34,7 +34,7 @@ out_pin:none
 
 ////////////////////////////////////////////////////////////////////////////////
 @init
-ext_noinit = 1.0;
+ext_noinit  = 1.0;
 statNoteOn  = $x90;
 statNoteOff = $x80;
 statCC      = $xB0;
@@ -58,6 +58,13 @@ c1AccOld = -1;
 c2AccOld = -1;
 c1a2SrcOld = -1;
 c2a2SrcOld = -1;
+
+c1RpnMode = 0;
+c2RpnMode = 0;
+c1RpnLsb  = 0;
+c2RpnLsb  = 0;
+c1RpnMsb  = 0;
+c2RpnMsb  = 0;
 c1PbRangeOld = -1;
 c2PbRangeOld = -1;
 
@@ -134,19 +141,84 @@ midiResetOld = checkSendDigi(midiResetOld, midiReset, c2CcMsg1, 123);
 );
 
 while (
-  midirecv(offset, msg1, msg23) ? (
+  midirecv(offset, msg1, msg2, msg3) ? (
     status  = msg1 & $xF0;
     channel = msg1 & $x0F;
+    chan1 = channel == c1In;
+    chan2 = channel == c2In;
     
-    (channel == c1In) ? (
-      midisend(offset, status + c1Out, msg23);
+    (chan1 || chan2) ? (
+      (status == statCC) ? (
+        (msg2 == 80) ? ( // A1
+          (chan1) ? ( c1d1 = c1d1Old = msg3 > 63; sliderchange(c1d1); );
+          (chan2) ? ( c2d1 = c2d1Old = msg3 > 63; sliderchange(c2d1); );
+        ) :
+        (msg2 == 81) ? ( // A2
+          (chan1) ? ( c1d2 = c1d2Old = msg3 > 63; sliderchange(c1d2); );
+          (chan2) ? ( c2d2 = c2d2Old = msg3 > 63; sliderchange(c2d2); );
+        ) :
+        (msg2 == 82) ? ( // A3
+          (chan1) ? ( c1d3 = c1d3Old = msg3 > 63; sliderchange(c1d3); );
+          (chan2) ? ( c2d3 = c2d3Old = msg3 > 63; sliderchange(c2d3); );
+        ) :
+        
+        (msg2 == 1) ? ( // D1
+          (chan1) ? ( c1a1 = c1a1Old = msg3; sliderchange(c1a1); );
+          (chan2) ? ( c2a1 = c2a1Old = msg3; sliderchange(c2a1); );
+        ) :
+        (msg2 == 16) ? ( // D2
+          (chan1 && !c1a2Src) ? ( c1a2 = c1a2Old = msg3; sliderchange(c1a2); );
+          (chan2 && !c2a2Src) ? ( c2a2 = c2a2Old = msg3; sliderchange(c2a2); );
+        ) :
+        
+        (msg2 == 17) ? ( // Accuracy
+          (chan1) ? ( c1Acc = c1AccOld = msg3 > 63; sliderchange(c1Acc); );
+          (chan2) ? ( c2Acc = c2AccOld = msg3 > 63; sliderchange(c2Acc); );
+        ) :
+        (msg2 == 18) ? ( // A2 Source
+          (chan1) ? ( c1a2Src = c1a2SrcOld = msg3 > 63; sliderchange(c1aSrcOld); );
+          (chan2) ? ( c2a2Src = c2a2SrcOld = msg3 > 63; sliderchange(c2aSrcOld); );
+        ) :
+        
+        (msg2 == 19) ? ( // Clock
+          clockDiv  = clockDivOld  = 0;    sliderchange(clockDiv);
+          clockMult = clockMultOld = msg3; sliderchange(clockMult);
+        ) :
+        
+        (msg2 == 123 || msg2 == 120) ? ( // Midi reset
+          midiReset = midiResetOld = msg3 > 63;
+          sliderchange(midiReset);
+        ) :
+        
+        (msg2 == 99 || msg2 == 98) ? (
+          (chan1) ? ( c1RpnMode = 0; );
+          (chan2) ? ( c2RpnMode = 0; );
+        ) :
+        (msg2 == 100) ? (
+          (chan1) ? ( c1RpnMode = 1; c1RpnLsb = msg3; );
+          (chan2) ? ( c2RpnMode = 1; c2RpnLsb = msg3; );
+        ) :
+        (msg2 == 101) ? (
+          (chan1) ? ( c1RpnMode = 1; c1RpnMsb = msg3; );
+          (chan2) ? ( c2RpnMode = 1; c2RpnMsb = msg3; );
+        ) :
+        (msg2 == 6) ? (
+          (chan1 && c1RPNMode && c1RpnLsb == 0 && c1RpnMsb == 0) ? (
+            c1PbRange = c1PbRangeOld = msg3; sliderchange(c1PbRange);
+          );
+          (chan2 && c2RPNMode && c2RpnLsb == 0 && c2RpnMsb == 0) ? (
+            c2PbRange = c2PbRangeOld = msg3; sliderchange(c2PbRange);
+          );
+        );
+      ) :
+      
+      (status == statNoteOn) ? (
+        (chan1 && c1a2Src) ? ( c1a2 = c1a2Old = msg3; sliderchange(c1a2); );
+        (chan2 && c2a2Src) ? ( c2a2 = c2a2Old = msg3; sliderchange(c2a2); );
+      );
+      
+      (chan1) ? ( midisend(offset, status + c1Out, msg2, msg3); );
+      (chan2) ? ( midisend(offset, status + c2Out, msg2, msg3); );
     );
-    
-    (channel == c2In) ? (
-      midisend(offset, status + c2Out, msg23);
-    );
-    
-    1;
   );
 );
-
