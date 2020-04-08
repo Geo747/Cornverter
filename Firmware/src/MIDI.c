@@ -322,7 +322,9 @@ void MIDIRead() {
     return;
   }
 
-  d.mMessage.channel -= MIDI_CHANNEL_OFFSET;
+  if (isChannelMessage(d.mMessage.type)) {
+    d.mMessage.channel -= MIDI_CHANNEL_OFFSET;
+  }
   if (!channelIsUsed(d.mMessage.channel)) { return; }
 
   handleNullVelocityNoteOnAsNoteOff();
