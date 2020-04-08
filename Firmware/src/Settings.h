@@ -31,6 +31,8 @@
 
   //Number of channels (starting from channel 0) that polytomono and main use
   #define MIDI_CHANNELS 2
+  //MIDI.c moves midi channels down by this offset to allow different midi ranges
+  #define MIDI_CHANNEL_OFFSET 2
 
   //Define notes for different accuracies
   static const uint8_t NOTE_RANGE[] = {48, 96};
