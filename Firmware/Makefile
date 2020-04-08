@@ -11,6 +11,8 @@ AVRDUDE_PROGRAMMER = avrispmkII
 AVRDUDE_PORT = usb
 AVRDUDE_BAUD_RATE = 115200
 
+MIDI_OFFSET ?= 0
+
 # Target file name (without extension).
 TARGET_FN = MIDI_to_CV
 # List any extra directories to look for include files here.
@@ -48,7 +50,7 @@ BUILD = $(addprefix $(BUILD_DIR),$(SRC_FILES))
 #  -f...:     tuning, see gcc manual and avr-libc documentation
 #  -Wall...:  warning level
 #  -Wa,...:   tell GCC to pass this to the assembler.
-CFLAGS = -g -O$(OPT) \
+CFLAGS = -g -O$(OPT) -D MIDI_CHANNEL_OFFSET=$(MIDI_OFFSET)\
 -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
 -Wall -Wstrict-prototypes \
 -Wa, \
