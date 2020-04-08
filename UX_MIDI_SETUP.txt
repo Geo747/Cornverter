@@ -18,6 +18,7 @@ Analog MIDI CCs:
 
 Additional Controls:
 -Pitch bend - MIDI pitch bend
+-Stop all notes - MIDI CC 120 or 123
 
 Config CCs:
 -Voct Accuracy - MIDI CC 17 (Below 64 sets 0 - 4V, above 64 sets 0 - 8V, defaults to 0 - 8V)

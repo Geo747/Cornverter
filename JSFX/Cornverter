@@ -1,0 +1,152 @@
+desc: Cornverter Interface
+//author: George Rennie
+
+slider1:c1In=0<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,None}>Input Midi Channel 1
+slider2:c1Out=0<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,None}>Output Midi Channel 1
+slider3:c2In=1<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,None}>Input Midi Channel 2
+slider4:c2Out=1<0,15,1{1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,None}>Output Midi Channel 2
+
+slider11:c1a1=0<0,127,1>Ch1 Analogue 1
+slider12:c1a2=0<0,127,1>Ch1 Analogue 2
+slider13:c2a1=0<0,127,1>Ch2 Analogue 1
+slider14:c2a2=0<0,127,1>Ch2 Analogue 2
+
+slider21:c1d1=0<0,1,1{Off,On}>Ch1 Digital 1
+slider22:c1d2=0<0,1,1{Off,On}>Ch1 Digital 2
+slider23:c1d3=0<0,1,1{Off,On}>Ch1 Digital 3
+slider24:c2d1=0<0,1,1{Off,On}>Ch2 Digital 1
+slider25:c2d2=0<0,1,1{Off,On}>Ch2 Digital 2
+slider26:c2d3=0<0,1,1{Off,On}>Ch2 Digital 3
+
+slider31:clockDiv=6<0,10,1{1/32T,1/16T,1/16,1/8T,1/8,1/4T,1/4,1/2T,1/2,1,2}>Clock division
+slider32:clockMult=1<1,24,1>Divisions per Clock Pulse
+slider33:c1Acc=1<0,1,1{High (4 Octaves), Low (8 Octaves)}>Ch1 V/Oct Accuracy
+slider34:c2Acc=1<0,1,1{High (4 Octaves), Low (8 Octaves)}>Ch2 V/Oct Accuracy
+slider35:c1a2Src=0<0,1,1{Slider/CC 18,Velocity}>Ch1 Analogue 2 Source
+slider36:c2a2Src=0<0,1,1{Slider/CC 18,Velocity}>Ch2 Analogue 2 Source
+slider37:c1PbRange=2<1,24,1>Ch1 Pitch Bend Range
+slider38:c2PbRange=2<1,24,1>Ch2 Pitch Bend Range
+
+slider41:midiReset=0<0,1,1>Reset Midi notes
+
+in_pin:none
+out_pin:none
+
+////////////////////////////////////////////////////////////////////////////////
+@init
+ext_noinit = 1.0;
+statNoteOn  = $x90;
+statNoteOff = $x80;
+statCC      = $xB0;
+
+c1d1Old = -1;
+c1d2Old = -1;
+c1d3Old = -1;
+c2d1Old = -1;
+c2d2Old = -1;
+c2d3Old = -1;
+
+c1a1Old = -1;
+c1a2Old = -1;
+c2a1Old = -1;
+c2a2Old = -1;
+
+clockDivOld = -1;
+clockMultOld = -1;
+
+c1AccOld = -1;
+c2AccOld = -1;
+c1a2SrcOld = -1;
+c2a2SrcOld = -1;
+c1PbRangeOld = -1;
+c2PbRangeOld = -1;
+
+midiResetOld = -1;
+
+////////////////////////////////////////////////////////////////////////////////
+@block
+
+function checkSendDigi(oldVal, newVal, msg1, cc) (
+  newVal != oldVal ? (
+    midisend(0, msg1, cc, newVal ? 127 : 0);
+  );
+  newVal;
+);
+
+function checkSendAna(oldVal, newVal, msg1, cc) (
+  newVal != oldVal ? (
+    midisend(0, msg1, cc, max(min(newVal|0, 127), 0));
+  );
+  newVal;
+);
+
+function checkSendRPN(oldVal, newVal, msg1, rpnMsb, rpnLsb) (
+  newVal != oldVal ? (
+    midisend(0, msg1, 101, rpnMsb);
+    midisend(0, msg1, 100, rpnLsb);
+    midisend(0, msg1, 6, max(min(newVal|0, 127), 0));
+    midisend(0, msg1, 100, 0); 
+  );
+  newVal;
+);
+
+c1CcMsg1 = statCC + c1Out;
+c2CcMsg1 = statCC + c2Out;
+
+c1d1Old      = checkSendDigi(c1d1Old,      c1d1,      c1CcMsg1, 80);
+c1d2Old      = checkSendDigi(c1d2Old,      c1d2,      c1CcMsg1, 81);
+c1d3Old      = checkSendDigi(c1d3Old,      c1d3,      c1CcMsg1, 82);
+c2d1Old      = checkSendDigi(c2d1Old,      c2d1,      c2CcMsg1, 80);
+c2d2Old      = checkSendDigi(c2d2Old,      c2d2,      c2CcMsg1, 81);
+c2d3Old      = checkSendDigi(c2d3Old,      c2d3,      c2CcMsg1, 82);
+
+c1a1Old      = checkSendAna (c1a1Old,      c1a1,      c1CcMsg1, 1);
+c1a2Old      = checkSendAna (c1a2Old,      c1a2,      c1CcMsg1, 16);
+c2a1Old      = checkSendAna (c2a1Old,      c2a1,      c2CcMsg1, 1);
+c2a2Old      = checkSendAna (c2a2Old,      c2a2,      c2CcMsg1, 16);
+
+c1AccOld     = checkSendDigi(c1AccOld,     c1Acc,     c1CcMsg1, 17);
+c2AccOld     = checkSendDigi(c1AccOld,     c2Acc,     c2CcMsg1, 17);
+c1a2SrcOld   = checkSendDigi(c1a2SrcOld,   c1a2Src,   c1CcMsg1, 18);
+c2a2SrcOld   = checkSendDigi(c2a2SrcOld,   c2a2Src,   c2CcMsg1, 18);
+c1PbRangeOld = checkSendRPN (c1PbRangeOld, c1PbRange, c1CcMsg1, 0, 0);
+c2PbRangeOld = checkSendRPN (c2PbRangeOld, c2PbRange, c2CcMsg1, 0, 0);
+
+               checkSendDigi(midiResetOld, midiReset, c1CcMsg1, 123);
+midiResetOld = checkSendDigi(midiResetOld, midiReset, c2CcMsg1, 123);
+
+(clockDiv != clockDivOld || clockMult != clockMultOld) ? (
+  clockDiv = max(min(clockDiv|0, 10), 0);
+  clockDivInt = (clockDiv == 0) ? 1  :
+                (clockDiv == 1) ? 2  :
+                (clockDiv == 2) ? 3  :
+                (clockDiv == 3) ? 4  :
+                (clockDiv == 4) ? 6  :
+                (clockDiv == 5) ? 8  :
+                (clockDiv == 6) ? 12 :
+                (clockDiv == 7) ? 16 :
+                (clockDiv == 8) ? 24 : 48;
+  clockDivInt *= clockMult;
+  midisend(0, c1CcMsg1, 19, max(min(clockDivInt|0, 127), 1));
+ 
+  clockDivOld = clockDiv;
+  clockMultOld = clockMult;
+);
+
+while (
+  midirecv(offset, msg1, msg23) ? (
+    status  = msg1 & $xF0;
+    channel = msg1 & $x0F;
+    
+    (channel == c1In) ? (
+      midisend(offset, status + c1Out, msg23);
+    );
+    
+    (channel == c2In) ? (
+      midisend(offset, status + c2Out, msg23);
+    );
+    
+    1;
+  );
+);
+
