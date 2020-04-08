@@ -60,6 +60,12 @@ static uint8_t isChannelMessage(MIDIType input) {
           input == PitchBend);
 }
 
+/*Returns true if channel is in range
+  (although this only allows a less than check at the moment)
+*/
+static uint8_t channelIsUsed(uint8_t channel) {
+  return (channel < MIDI_CHANNELS);
+}
 
 static MIDIType getTypeFromStatusByte(uint8_t input) {
   //Checks if input is a datatype not currently defined in MIDI.h
@@ -316,7 +322,7 @@ void MIDIRead() {
     return;
   }
 
-  if (!CHANNNEL_USED(d.mMessage.channel)) { return; }
+  if (!channelIsUsed(d.mMessage.channel)) { return; }
 
   handleNullVelocityNoteOnAsNoteOff();
 

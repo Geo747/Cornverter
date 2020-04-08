@@ -12,11 +12,6 @@
 #define MIDI_CHANNELS 16
 #endif
 
-//If not otherwise specified accept data starting from channel 0
-#ifndef BOTTOM_MIDI_CHANNEL
-#define BOTTOM_MIDI_CHANNEL 0
-#endif
-
 //If not otherwise specified treat null velocity as a note off
 #ifndef NULL_VELOCITY_AS_NOTE_OFF
 #define NULL_VELOCITY_AS_NOTE_OFF 1
