@@ -17,17 +17,17 @@ MIDI_OFFSET ?= 0
 TARGET_FN = MIDI_to_CV
 # List any extra directories to look for include files here.
 #     Each directory must be seperated by a space.
-EXTRAINCDIRS = 
+EXTRAINCDIRS =
 
 SRC_DIR = src/
 BUILD_DIR = build/
 BIN_DIR = bin/
 
-############# Don't need to change below here for most purposes 
+############# Don't need to change below here for most purposes
 
-$(shell mkdir $(SRC_DIR))
-$(shell mkdir $(BUILD_DIR))
-$(shell mkdir $(BIN_DIR))
+$(shell mkdir -p $(SRC_DIR) 2>/dev/null)
+$(shell mkdir -p $(BUILD_DIR) 2>/dev/null)
+$(shell mkdir -p $(BIN_DIR) 2>/dev/null)
 
 TARGET = $(BIN_DIR)$(TARGET_FN)
 SRC_ADDRESSES = $(wildcard $(SRC_DIR)*.c)
@@ -49,11 +49,9 @@ BUILD = $(addprefix $(BUILD_DIR),$(SRC_FILES))
 #  -O*:       optimization level
 #  -f...:     tuning, see gcc manual and avr-libc documentation
 #  -Wall...:  warning level
-#  -Wa,...:   tell GCC to pass this to the assembler.
 CFLAGS = -g -O$(OPT) -D MIDI_CHANNEL_OFFSET=$(MIDI_OFFSET)\
 -funsigned-char -funsigned-bitfields -fpack-struct -fshort-enums \
--Wall -Wstrict-prototypes \
--Wa, \
+-Wall -Wstrict-prototypes -I/usr/lib/avr/include\
 $(patsubst %,-I%,$(EXTRAINCDIRS))
 
 CFLAGS += -std=gnu99
@@ -62,8 +60,6 @@ AVRDUDE_WRITE_FLASH = -U flash:w:$(TARGET).hex
 #AVRDUDE_WRITE_EEPROM = -U eeprom:w:$(TARGET).eep
 
 AVRDUDE_FLAGS = -p$(MCU) -P$(AVRDUDE_PORT) -c$(AVRDUDE_PROGRAMMER) -b$(AVRDUDE_BAUD_RATE)
-
-SHELL=C:/Windows/System32/cmd.exe
 
 CC = avr-gcc
 
@@ -81,7 +77,7 @@ OBJ = $(BUILD:.c=.o)
 # Add target processor to flags.
 ALL_CFLAGS = -mmcu=$(MCU) -I. $(CFLAGS)
 
-# Program the device.  
+# Program the device.
 all: $(TARGET).hex $(TARGET).eep
 	$(AVRDUDE) $(AVRDUDE_FLAGS) $(AVRDUDE_WRITE_FLASH) $(AVRDUDE_WRITE_EEPROM)
 
