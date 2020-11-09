@@ -1,4 +1,4 @@
-//Copyright 2019 George Rennie
+// Copyright 2019 George Rennie
 #include "DigitalOutputs.h"
 
 void digitalOutputsUpdateGate(uint8_t state, uint8_t channel) {
@@ -6,6 +6,7 @@ void digitalOutputsUpdateGate(uint8_t state, uint8_t channel) {
 
   if      (channel == 0) { ioPin = ioPins.gate1; }
   else if (channel == 1) { ioPin = ioPins.gate2; }
+  else                   { return; }
 
   ioPinsWrite(ioPin, state);
 }

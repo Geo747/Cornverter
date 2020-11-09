@@ -1,8 +1,8 @@
-//Copyright 2019 George Rennie
+// Copyright 2019 George Rennie
 #include "Settings.h"
 #include "ioPinsSettings.h"
 
-//Remember to define every pin in this
+// Remember to define every pin in this
 const ioPinsStruct ioPins = {
   .gate1.portLetter     = 'D',
   .gate1.bit            =  7 ,
@@ -71,24 +71,24 @@ const ioPinsStruct ioPins = {
   .MCP4822SCK.portLetter= 'B',
   .MCP4822SCK.bit       =  5 ,
   .MCP4822SCK.direction =  1 ,
-  
+
 };
 
-volatile uint8_t* ioPinsGetPORT(ioPinStruct ioPin) {
+inline volatile uint8_t* ioPinsGetPORT(ioPinStruct ioPin) {
   char letter = ioPin.portLetter;
   if      (letter == 'B') { return &PORTB; }
   else if (letter == 'C') { return &PORTC; }
   else                    { return &PORTD; }
 }
 
-volatile uint8_t* ioPinsGetDDR(ioPinStruct ioPin) {
+inline volatile uint8_t* ioPinsGetDDR(ioPinStruct ioPin) {
   char letter = ioPin.portLetter;
   if      (letter == 'B') { return &DDRB; }
   else if (letter == 'C') { return &DDRC; }
   else                    { return &DDRD; }
 }
 
-volatile uint8_t* ioPinsGetPIN(ioPinStruct ioPin) {
+inline volatile uint8_t* ioPinsGetPIN(ioPinStruct ioPin) {
   char letter = ioPin.portLetter;
   if      (letter == 'B') { return &PINB; }
   else if (letter == 'C') { return &PINC; }
@@ -100,9 +100,9 @@ void ioPinsWrite(ioPinStruct ioPin, uint8_t state) {
   else            { *ioPinsGetPORT(ioPin) |= (1 << ioPin.bit); }
 }
 
-/*Sets corresponding DDR bit for all pins to their direction value.
-  Also writes pins with direction == 1 (outputs) low
-*/
+// Sets corresponding DDR bit for all pins to their direction value.
+// Also writes pins with direction == 1 (outputs) low
+
 static void initPin(ioPinStruct ioPin) {
   volatile uint8_t* DDR = ioPinsGetDDR(ioPin);
   if (ioPin.direction == 0) { *DDR &= ~(1 << ioPin.bit); }
@@ -112,7 +112,7 @@ static void initPin(ioPinStruct ioPin) {
   }
 }
 
-//Include every pin in this
+// Include every pin in this
 void ioPinsSetup(void) {
   initPin(ioPins.gate1);
   initPin(ioPins.gate2);
